@@ -1,0 +1,26 @@
+app:
+  name: AutoTest Pro Framework
+  version: 0.1.0
+  language: es
+
+execution:
+  default_environment: demo
+  default_browser: chrome
+  default_timeout: 15
+  screenshot_on_failure: true
+  screenshot_on_step: false
+  reports_enabled: true
+
+environments:
+  demo:
+    base_url: "https://the-internet.herokuapp.com/login"
+  qa:
+    base_url: "https://example.com"
+  staging:
+    base_url: "https://example.com"
+
+paths:
+  logs: logs
+  screenshots: screenshots
+  reports: reports
+  downloads: storage/downloads

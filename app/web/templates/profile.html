@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="grid two-columns">
+  <section class="card">
+    <div class="section-header">
+      <div>
+        <h2>Mi perfil</h2>
+        <p>Información de la sesión actual y permisos asignados.</p>
+      </div>
+    </div>
+    <div class="settings-list">
+      <div><strong>Nombre</strong><span>{{ current_user.full_name }}</span></div>
+      <div><strong>Usuario</strong><span>{{ current_user.username }}</span></div>
+      <div><strong>Correo</strong><span>{{ current_user.email }}</span></div>
+      <div><strong>Rol</strong><span>{{ current_user.role or 'Sin rol' }}</span></div>
+    </div>
+    <div class="permissions-box">
+      <h3>Permisos</h3>
+      <div class="permission-list">
+        {% for permission in current_user.permissions %}
+          <span class="badge info">{{ permission }}</span>
+        {% else %}
+          <span class="muted">No hay permisos asignados.</span>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-header">
+      <div>
+        <h2>Cambiar contraseña</h2>
+        <p>Actualiza tu contraseña de acceso.</p>
+      </div>
+    </div>
+    <form id="changePasswordForm" class="form-grid single">
+      <label>
+        Contraseña actual
+        <input type="password" name="current_password" required>
+      </label>
+      <label>
+        Nueva contraseña
+        <input type="password" name="new_password" required minlength="8">
+      </label>
+      <button class="btn primary" type="submit">Actualizar contraseña</button>
+    </form>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/profile.js"></script>
+{% endblock %}

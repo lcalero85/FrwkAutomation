@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>AutoTest Recorder</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main>
+    <div class="header">
+      <div class="mark">AT</div>
+      <div>
+        <h1>AutoTest Recorder</h1>
+        <p>Captura acciones del sitio y envíalas a AutoTest Pro.</p>
+      </div>
+    </div>
+
+    <section class="hint">
+      <strong>Uso rápido</strong>
+      <ol>
+        <li>Copia el Case ID desde AutoTest Pro.</li>
+        <li>Pégalo aquí y presiona Guardar y activar.</li>
+        <li>Recarga el sitio bajo prueba y realiza el flujo.</li>
+      </ol>
+    </section>
+
+    <label>Case ID
+      <input id="caseId" type="number" min="1" placeholder="Ej. 1">
+    </label>
+    <label>API base
+      <input id="apiBase" placeholder="http://127.0.0.1:8000">
+    </label>
+
+    <div class="checks">
+      <label class="check"><input id="enabled" type="checkbox"> Captura activa</label>
+      <label class="check"><input id="captureScroll" type="checkbox"> Capturar scroll</label>
+      <label class="check"><input id="showBadge" type="checkbox"> Mostrar indicador visual</label>
+    </div>
+
+    <button id="saveBtn">Guardar y activar</button>
+    <button id="pauseBtn" class="secondary">Pausar captura</button>
+    <button id="testBtn" class="secondary">Probar conexión</button>
+    <div id="status"></div>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoTest Pro Framework - Reporte de Ejecución</title>
+    <style>
+        :root { --primary:#1F4E78; --secondary:#0F172A; --bg:#F3F6FA; --card:#FFFFFF; --ok:#15803D; --fail:#B91C1C; --skip:#A16207; --border:#D8DEE9; }
+        * { box-sizing: border-box; }
+        body { margin:0; font-family: Segoe UI, Arial, sans-serif; background:var(--bg); color:#1f2937; }
+        header { background:linear-gradient(135deg, var(--primary), #0F172A); color:white; padding:28px 36px; }
+        header h1 { margin:0; font-size:28px; }
+        header p { margin:6px 0 0; opacity:.9; }
+        main { padding:28px 36px; }
+        .grid { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap:16px; margin-bottom:22px; }
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; box-shadow:0 10px 25px rgba(15,23,42,.06); }
+        .metric-label { font-size:13px; color:#64748b; margin-bottom:8px; }
+        .metric-value { font-size:26px; font-weight:700; }
+        .status { display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; }
+        .PASSED { background:#DCFCE7; color:var(--ok); }
+        .FAILED { background:#FEE2E2; color:var(--fail); }
+        .SKIPPED { background:#FEF3C7; color:var(--skip); }
+        section { margin-bottom:24px; }
+        h2 { color:var(--secondary); margin:0 0 12px; font-size:20px; }
+        table { width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden; box-shadow:0 10px 25px rgba(15,23,42,.05); }
+        th, td { padding:12px 14px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top; font-size:14px; }
+        th { background:#EAF2F8; color:#172554; font-weight:700; }
+        tr:last-child td { border-bottom:none; }
+        .two-col { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+        .recommendations li { margin-bottom:8px; }
+        .progress { width:100%; height:14px; background:#E5E7EB; border-radius:999px; overflow:hidden; }
+        .bar { height:100%; background:var(--primary); width: {{ summary.success_percentage }}%; }
+        footer { text-align:center; color:#64748b; padding:22px; font-size:12px; }
+        @media(max-width:900px){ .grid,.two-col{ grid-template-columns:1fr; } main{padding:20px;} header{padding:24px 20px;} }
+    </style>
+</head>
+<body>
+<header>
+    <h1>AutoTest Pro Framework</h1>
+    <p>Reporte ejecutivo y técnico de ejecución automatizada</p>
+</header>
+<main>
+    <section class="grid">
+        <div class="card"><div class="metric-label">Estado general</div><div class="metric-value"><span class="status {{ summary.status }}">{{ summary.status }}</span></div></div>
+        <div class="card"><div class="metric-label">Porcentaje de éxito</div><div class="metric-value">{{ summary.success_percentage }}%</div><div class="progress"><div class="bar"></div></div></div>
+        <div class="card"><div class="metric-label">Pasos ejecutados</div><div class="metric-value">{{ summary.total_steps }}</div></div>
+        <div class="card"><div class="metric-label">Duración</div><div class="metric-value">{{ summary.duration_seconds }}s</div></div>
+    </section>
+    <section class="two-col">
+        <div class="card">
+            <h2>Información de ejecución</h2>
+            <table>
+                <tr><th>Campo</th><th>Valor</th></tr>
+                <tr><td>Execution ID</td><td>{{ summary.execution_id }}</td></tr>
+                <tr><td>Proyecto</td><td>{{ summary.project_name }}</td></tr>
+                <tr><td>Suite</td><td>{{ summary.suite_name }}</td></tr>
+                <tr><td>Caso</td><td>{{ summary.test_name }}</td></tr>
+                <tr><td>Ambiente</td><td>{{ summary.environment }}</td></tr>
+                <tr><td>URL Base</td><td>{{ summary.base_url }}</td></tr>
+                <tr><td>Navegador</td><td>{{ summary.browser }}</td></tr>
+                <tr><td>Inicio</td><td>{{ summary.started_at }}</td></tr>
+                <tr><td>Fin</td><td>{{ summary.finished_at }}</td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h2>Resumen de resultados</h2>
+            <table>
+                <tr><th>Estado</th><th>Total</th></tr>
+                <tr><td><span class="status PASSED">PASSED</span></td><td>{{ summary.passed_steps }}</td></tr>
+                <tr><td><span class="status FAILED">FAILED</span></td><td>{{ summary.failed_steps }}</td></tr>
+                <tr><td><span class="status SKIPPED">SKIPPED</span></td><td>{{ summary.skipped_steps }}</td></tr>
+            </table>
+            <h2 style="margin-top:18px;">Recomendaciones</h2>
+            <ul class="recommendations">
+                {% for rec in summary.recommendations %}<li>{{ rec }}</li>{% endfor %}
+            </ul>
+        </div>
+    </section>
+    <section>
+        <h2>Detalle de pasos</h2>
+        <table>
+            <thead><tr><th>#</th><th>Paso</th><th>Acción</th><th>Selector</th><th>Estado</th><th>Duración</th><th>Mensaje</th><th>Screenshot</th></tr></thead>
+            <tbody>
+            {% for step in summary.steps %}
+                <tr>
+                    <td>{{ step.order }}</td><td>{{ step.name }}</td><td>{{ step.action }}</td><td>{{ step.selector }}</td>
+                    <td><span class="status {{ step.status }}">{{ step.status }}</span></td><td>{{ step.duration_seconds }}s</td><td>{{ step.message }}</td><td>{{ step.screenshot_path }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
+<footer>Generado automáticamente por AutoTest Pro Framework</footer>
+</body>
+</html>

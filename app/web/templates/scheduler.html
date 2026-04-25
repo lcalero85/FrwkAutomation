@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="grid two-columns scheduler-layout">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h2>Programador de ejecuciones</h2>
+        <p>Agenda ejecuciones demo y administra trabajos recurrentes.</p>
+      </div>
+      <button class="btn primary" id="openJobModal" type="button">Nuevo job</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Frecuencia</th>
+            <th>Navegador</th>
+            <th>Próxima ejecución</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="schedulerJobsTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Orquestador rápido</h2>
+    <p>Ejecuta el caso demo desde esta pantalla y valida la integración API + Selenium + reportes.</p>
+    <div class="form-grid">
+      <label>Navegador
+        <select id="quickBrowser">
+          <option value="chrome">Chrome</option>
+          <option value="firefox">Firefox</option>
+          <option value="edge">Edge</option>
+        </select>
+      </label>
+      <label>Ambiente
+        <input id="quickEnvironment" value="demo">
+      </label>
+      <label>Reportes
+        <input id="quickReport" value="html,excel,pdf">
+      </label>
+      <label class="checkbox-row">
+        <input id="quickHeadless" type="checkbox"> Ejecutar headless
+      </label>
+    </div>
+    <button class="btn primary full" id="quickRunBtn" type="button">Ejecutar ahora</button>
+    <div class="run-status" id="quickRunStatus">Listo para ejecutar.</div>
+  </div>
+</div>
+
+<div class="modal hidden" id="jobModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>Nuevo job programado</h2>
+      <button class="icon-btn" id="closeJobModal" type="button">×</button>
+    </div>
+    <form id="jobForm" class="form-grid">
+      <label>Nombre
+        <input name="name" required placeholder="Smoke diario Chrome">
+      </label>
+      <label>Frecuencia
+        <select name="schedule_type">
+          <option value="HOURLY">Cada hora</option>
+          <option value="DAILY" selected>Diario</option>
+          <option value="WEEKLY">Semanal</option>
+          <option value="MONTHLY">Mensual</option>
+        </select>
+      </label>
+      <label>Navegador
+        <select name="browser">
+          <option value="chrome">Chrome</option>
+          <option value="firefox">Firefox</option>
+          <option value="edge">Edge</option>
+        </select>
+      </label>
+      <label>Ambiente
+        <input name="environment" value="demo">
+      </label>
+      <label>Reportes
+        <input name="report" value="html,excel,pdf">
+      </label>
+      <label class="checkbox-row">
+        <input name="headless" type="checkbox" checked> Headless
+      </label>
+      <label class="full-field">Descripción
+        <textarea name="description" rows="3" placeholder="Describe el objetivo de esta ejecución programada"></textarea>
+      </label>
+      <button class="btn primary full-field" type="submit">Guardar job</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/scheduler.js"></script>
+{% endblock %}

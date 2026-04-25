@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="card">
+  <div class="section-header">
+    <div>
+      <h2>Auditoría de acciones</h2>
+      <p>Registro de inicios de sesión, cambios de seguridad y administración.</p>
+    </div>
+    <button class="btn secondary" id="refreshAudit" type="button">Actualizar</button>
+  </div>
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Fecha</th>
+          <th>Usuario</th>
+          <th>Módulo</th>
+          <th>Acción</th>
+          <th>Estado</th>
+          <th>IP</th>
+          <th>Detalle</th>
+        </tr>
+      </thead>
+      <tbody id="auditTableBody">
+        <tr><td colspan="8">Cargando auditoría...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/audit.js"></script>
+{% endblock %}

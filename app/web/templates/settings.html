@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="grid settings-layout">
+  <section class="card">
+    <div class="card-header">
+      <div>
+        <h2>Marca blanca</h2>
+        <p>Personaliza nombre, logo, colores y datos comerciales de la plataforma.</p>
+      </div>
+      <button class="btn secondary" id="resetSettingsBtn" type="button">Restaurar valores</button>
+    </div>
+
+    <form id="settingsForm" class="form-grid">
+      <label>Nombre de la aplicación
+        <input id="app_name" name="app_name" required>
+      </label>
+      <label>Nombre comercial / empresa
+        <input id="company_name" name="company_name" required>
+      </label>
+      <label>Texto del logo
+        <input id="logo_text" name="logo_text" maxlength="4" required>
+      </label>
+      <label>Texto superior
+        <input id="tagline" name="tagline" required>
+      </label>
+      <label>Color principal
+        <input id="primary_color" name="primary_color" type="color">
+      </label>
+      <label>Color sidebar
+        <input id="secondary_color" name="secondary_color" type="color">
+      </label>
+      <label>Correo de soporte
+        <input id="support_email" name="support_email" type="email">
+      </label>
+      <label>Sitio web
+        <input id="website_url" name="website_url">
+      </label>
+      <label>Tema visual
+        <select id="theme" name="theme">
+          <option>Corporate Light</option>
+          <option>Corporate Dark</option>
+          <option>QA Blue</option>
+          <option>Automation Green</option>
+          <option>Minimal Gray</option>
+          <option>Neon Tech</option>
+          <option>Purple Pro</option>
+          <option>Ocean Clean</option>
+          <option>Black Gold</option>
+          <option>White Label Neutral</option>
+        </select>
+      </label>
+      <label>Idioma
+        <select id="language" name="language">
+          <option value="es">Español</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+      <label>Zona horaria
+        <input id="timezone" name="timezone">
+      </label>
+      <label>Navegador por defecto
+        <select id="default_browser" name="default_browser">
+          <option value="chrome">Chrome</option>
+          <option value="firefox">Firefox</option>
+          <option value="edge">Edge</option>
+        </select>
+      </label>
+      <label>Ambiente por defecto
+        <input id="default_environment" name="default_environment">
+      </label>
+      <label>Timeout global en segundos
+        <input id="execution_timeout" name="execution_timeout" type="number" min="1">
+      </label>
+      <label>Captura en fallo
+        <select id="screenshot_on_failure" name="screenshot_on_failure">
+          <option value="true">Sí</option>
+          <option value="false">No</option>
+        </select>
+      </label>
+      <label>Captura en cada paso
+        <select id="screenshot_each_step" name="screenshot_each_step">
+          <option value="false">No</option>
+          <option value="true">Sí</option>
+        </select>
+      </label>
+      <label>Ruta de reportes
+        <input id="reports_path" name="reports_path">
+      </label>
+      <label>Ruta de logs
+        <input id="logs_path" name="logs_path">
+      </label>
+      <label>Ruta de screenshots
+        <input id="screenshots_path" name="screenshots_path">
+      </label>
+      <label>Ruta de videos
+        <input id="videos_path" name="videos_path">
+      </label>
+      <div class="modal-actions">
+        <button class="btn primary" type="submit">Guardar configuración</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>SMTP y notificaciones</h2>
+    <p>Configura y valida el envío real de reportes por correo.</p>
+    <div class="form-grid single" id="smtpPanel">
+      <label>Servidor SMTP
+        <input id="smtp_server" name="smtp_server">
+      </label>
+      <label>Puerto SMTP
+        <input id="smtp_port" name="smtp_port" type="number">
+      </label>
+      <label>Usuario SMTP
+        <input id="smtp_user" name="smtp_user">
+      </label>
+      <label>Contraseña SMTP / App password
+        <input id="smtp_password" name="smtp_password" type="password" autocomplete="new-password" placeholder="Dejar vacío si no deseas cambiarla">
+      </label>
+      <label>Correo remitente
+        <input id="smtp_sender" name="smtp_sender" type="email">
+      </label>
+      <label>Usar TLS
+        <select id="smtp_use_tls" name="smtp_use_tls">
+          <option value="true">Sí</option>
+          <option value="false">No</option>
+        </select>
+      </label>
+      <label>Usar SSL directo
+        <select id="smtp_use_ssl" name="smtp_use_ssl">
+          <option value="false">No</option>
+          <option value="true">Sí</option>
+        </select>
+      </label>
+      <label>Destinatarios por defecto
+        <textarea id="smtp_default_recipients" name="smtp_default_recipients" rows="3" placeholder="qa@empresa.com; lead@empresa.com"></textarea>
+      </label>
+      <label>Correo para prueba SMTP
+        <input id="smtp_test_recipient" type="email" placeholder="destino@empresa.com">
+      </label>
+      <div class="modal-actions">
+        <button class="btn secondary" id="testSmtpBtn" type="button">Enviar correo de prueba</button>
+      </div>
+    </div>
+
+    <div class="preview-card">
+      <h3>Vista previa de marca</h3>
+      <div class="preview-brand">
+        <div class="brand-mark" id="previewLogo">AT</div>
+        <div>
+          <strong id="previewCompany">AutoTest Pro</strong>
+          <span id="previewApp">AutoTest Pro Framework</span>
+        </div>
+      </div>
+      <p id="previewTagline">Plataforma de Automatización QA</p>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/settings.js"></script>
+{% endblock %}

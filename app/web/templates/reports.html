@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="card">
+  <div class="card-header">
+    <div>
+      <h2>Reportes generados</h2>
+      <p>Consulta, visualiza y descarga reportes HTML, Excel, PDF y evidencias por ejecución.</p>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Ejecución</th>
+          <th>Prueba</th>
+          <th>Estado</th>
+          <th>HTML</th>
+          <th>Excel</th>
+          <th>PDF</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="reportsBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<div class="modal hidden wide-modal" id="reportViewerModal">
+  <div class="modal-card viewer-card">
+    <div class="modal-header">
+      <div>
+        <h2 id="viewerTitle">Visor de reporte</h2>
+        <p class="muted" id="viewerSubtitle">Vista previa del reporte HTML.</p>
+      </div>
+      <button class="icon-btn" id="closeReportViewerModal" type="button">×</button>
+    </div>
+    <iframe id="reportPreviewFrame" class="report-preview-frame" title="Vista previa del reporte HTML"></iframe>
+  </div>
+</div>
+
+<div class="modal hidden wide-modal" id="evidenceModal">
+  <div class="modal-card evidence-card">
+    <div class="modal-header">
+      <div>
+        <h2>Evidencias de ejecución</h2>
+        <p class="muted" id="evidenceSubtitle">Screenshots y pasos relacionados al reporte.</p>
+      </div>
+      <button class="icon-btn" id="closeEvidenceModal" type="button">×</button>
+    </div>
+    <div class="evidence-layout">
+      <div class="evidence-list" id="evidenceList"></div>
+      <div class="evidence-preview">
+        <div id="evidenceEmpty" class="empty-state">Selecciona una evidencia para visualizarla.</div>
+        <img id="evidenceImage" class="hidden" alt="Evidencia de ejecución">
+        <div id="evidenceMeta" class="evidence-meta hidden"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="emailReportModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>Enviar reporte por correo</h2>
+      <button class="icon-btn" id="closeEmailReportModal" type="button">×</button>
+    </div>
+    <form id="emailReportForm" class="form-grid single">
+      <input type="hidden" id="email_report_id">
+      <label>Destinatarios
+        <textarea id="email_recipients" rows="3" placeholder="qa@empresa.com; lead@empresa.com" required></textarea>
+      </label>
+      <label>Asunto
+        <input id="email_subject" placeholder="Reporte de ejecución AutoTest Pro">
+      </label>
+      <label>Mensaje
+        <textarea id="email_message" rows="5" placeholder="Se adjunta el reporte de ejecución."></textarea>
+      </label>
+      <div class="checkbox-row"><input id="email_include_html" type="checkbox" checked><span>Adjuntar HTML</span></div>
+      <div class="checkbox-row"><input id="email_include_excel" type="checkbox" checked><span>Adjuntar Excel</span></div>
+      <div class="checkbox-row"><input id="email_include_pdf" type="checkbox" checked><span>Adjuntar PDF</span></div>
+      <div class="modal-actions">
+        <button class="btn primary" type="submit">Enviar reporte</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/static/js/reports.js"></script>{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="execution-detail" data-execution-id="{{ request.path_params.execution_id }}">
+  <section class="card">
+    <div class="card-header">
+      <div>
+        <h2 id="executionTitle">Detalle de ejecución</h2>
+        <p id="executionSubtitle">Cargando trazabilidad...</p>
+      </div>
+      <div class="table-actions">
+        <a class="btn secondary" href="/ui/executions">Volver</a>
+        <button class="btn ghost" id="refreshTrace" type="button">Actualizar</button>
+      </div>
+    </div>
+    <div class="stats-grid trace-stats" id="traceStats"></div>
+  </section>
+
+  <section class="grid two-columns trace-layout">
+    <section class="card">
+      <div class="card-header">
+        <div><h2>Línea de tiempo</h2><p>Orden, estado y duración de cada paso.</p></div>
+      </div>
+      <div id="timeline" class="timeline"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div><h2>Resumen técnico</h2><p>Estado general, fallos y archivos generados.</p></div>
+      </div>
+      <div id="technicalSummary" class="stack-list"></div>
+    </section>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <div><h2>Pasos ejecutados</h2><p>Detalle completo con selectores, mensajes, errores y evidencias.</p></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Paso</th><th>Acción</th><th>Selector</th><th>Estado</th><th>Tiempo</th><th>Evidencia</th></tr>
+        </thead>
+        <tbody id="traceStepsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="grid two-columns">
+    <section class="card">
+      <div class="card-header">
+        <div><h2>Fallos detectados</h2><p>Errores técnicos y mensajes asociados.</p></div>
+      </div>
+      <div id="failuresList" class="stack-list"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div><h2>Logs reconstruidos</h2><p>Resumen lineal de la ejecución.</p></div>
+      </div>
+      <pre id="executionLogs" class="code-block small-code">Cargando logs...</pre>
+    </section>
+  </section>
+
+  <div class="modal hidden" id="evidenceModal">
+    <div class="modal-card evidence-modal-card">
+      <div class="modal-header">
+        <div><h2>Vista de evidencia</h2><p id="evidenceCaption">Screenshot del paso seleccionado</p></div>
+        <button class="icon-btn" id="closeEvidenceModal" type="button">×</button>
+      </div>
+      <img id="evidenceImage" class="evidence-image" alt="Evidencia de ejecución">
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/static/js/execution_detail.js"></script>{% endblock %}

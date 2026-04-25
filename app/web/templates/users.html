@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="grid two-columns">
+  <section class="card">
+    <div class="section-header">
+      <div>
+        <h2>Usuarios</h2>
+        <p>Administra usuarios de la plataforma y sus roles.</p>
+      </div>
+      <button class="btn primary" id="openUserModal" type="button">Nuevo usuario</button>
+    </div>
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody">
+          <tr><td colspan="6">Cargando usuarios...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-header">
+      <div>
+        <h2>Roles</h2>
+        <p>Roles iniciales para control de acceso.</p>
+      </div>
+    </div>
+    <div id="rolesList" class="stack-list"></div>
+  </section>
+</div>
+
+<div class="modal hidden" id="userModal">
+  <div class="modal-backdrop" data-close-modal></div>
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>Crear usuario</h2>
+      <button class="icon-button" data-close-modal type="button">×</button>
+    </div>
+    <form id="userForm" class="form-grid">
+      <label>
+        Nombre completo
+        <input type="text" name="full_name" required>
+      </label>
+      <label>
+        Usuario
+        <input type="text" name="username" required>
+      </label>
+      <label>
+        Correo
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        Contraseña
+        <input type="password" name="password" required minlength="8">
+      </label>
+      <label>
+        Rol
+        <select name="role_id" id="roleSelect"></select>
+      </label>
+      <label class="checkbox-row">
+        <input type="checkbox" name="is_active" checked>
+        Usuario activo
+      </label>
+      <div class="modal-actions">
+        <button class="btn secondary" data-close-modal type="button">Cancelar</button>
+        <button class="btn primary" type="submit">Guardar usuario</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/users.js"></script>
+{% endblock %}

@@ -1,0 +1,254 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="recorder-hero card">
+  <div>
+    <p class="eyebrow">Grabador de pasos</p>
+    <h2>Crear, capturar y ejecutar casos automatizados</h2>
+    <p>Primero crea o selecciona un caso. Luego usa el modo manual o el grabador automático con la extensión de Chrome. El panel te guía paso a paso.</p>
+  </div>
+  <div class="recorder-mode-help">
+    <span class="mini-step">1. Caso</span>
+    <span class="mini-step">2. Captura</span>
+    <span class="mini-step">3. Limpieza</span>
+    <span class="mini-step">4. Ejecución</span>
+  </div>
+</div>
+
+<div class="grid recorder-layout">
+  <section class="card">
+    <div class="card-header">
+      <div>
+        <h2>Casos grabados</h2>
+        <p>Administra los casos que se capturan manualmente o desde la extensión.</p>
+      </div>
+      <button class="btn primary" id="newRecordedCaseBtn" type="button">Nuevo caso</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Caso</th>
+            <th>Browser</th>
+            <th>Estado</th>
+            <th>Pasos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="recordedCasesTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card recorder-detail-card">
+    <div class="card-header">
+      <div>
+        <h2 id="selectedCaseTitle">Detalle del caso</h2>
+        <p id="selectedCaseSubtitle">Selecciona un caso para ver o agregar pasos.</p>
+      </div>
+      <div class="inline-actions">
+        <button class="btn primary" id="runRecordedBtn" type="button" disabled>Ejecutar caso</button>
+        <button class="btn secondary" id="generateCodeBtn" type="button" disabled>Generar código</button>
+        <button class="btn secondary" id="exportCodeBtn" type="button" disabled>Exportar Page Object</button>
+        <button class="btn ghost" id="downloadExportBtn" type="button" disabled>Descargar ZIP</button>
+      </div>
+    </div>
+
+    <div id="emptyRecorderState" class="empty-state">
+      <h3>Selecciona un caso para comenzar</h3>
+      <p>Usa el botón Nuevo caso. Después podrás capturar pasos de forma manual o automática.</p>
+    </div>
+
+    <div id="recorderControls" class="recorder-controls hidden">
+      <button class="btn primary" id="recordBtn" type="button">Agregar pasos manuales</button>
+      <button class="btn secondary" id="autoRecorderBtn" type="button">Abrir asistente automático</button>
+      <button class="btn secondary" id="cleanupStepsBtn" type="button">Limpiar duplicados</button>
+      <button class="btn ghost" id="clearAllStepsBtn" type="button">Borrar pasos</button>
+      <span id="recordingStatus" class="recording-status idle">Idle</span>
+    </div>
+
+    <div id="autoRecorderPanel" class="auto-recorder-panel hidden">
+      <div class="auto-panel-header">
+        <div>
+          <h3>Asistente del grabador automático</h3>
+          <p>Sigue estos pasos. La extensión enviará los eventos capturados a este caso.</p>
+        </div>
+        <button class="btn ghost" id="hideAutoRecorderBtn" type="button">Ocultar</button>
+      </div>
+
+      <div class="setup-steps">
+        <div class="setup-step">
+          <strong>1</strong>
+          <div>
+            <h4>Instala la extensión</h4>
+            <p>Abre <code>chrome://extensions</code>, activa Developer mode y carga la carpeta indicada.</p>
+            <code id="autoExtensionPath">browser_extension/autotest_recorder</code>
+          </div>
+        </div>
+        <div class="setup-step">
+          <strong>2</strong>
+          <div>
+            <h4>Configura la extensión</h4>
+            <p>Copia estos datos en el popup de la extensión.</p>
+            <div class="copy-grid">
+              <label>Case ID <div class="copy-row"><code id="autoCaseId">-</code><button class="btn secondary small" id="copyCaseIdBtn" type="button">Copiar</button></div></label>
+              <label>API base <div class="copy-row"><code id="autoApiBase">http://127.0.0.1:8000</code><button class="btn secondary small" id="copyApiBaseBtn" type="button">Copiar</button></div></label>
+            </div>
+          </div>
+        </div>
+        <div class="setup-step">
+          <strong>3</strong>
+          <div>
+            <h4>Graba el flujo</h4>
+            <p>Abre o recarga el sitio bajo prueba, interactúa normalmente y vuelve aquí para refrescar los pasos.</p>
+            <div class="auto-status-grid">
+              <div><span>Pasos capturados</span><strong id="autoTotalSteps">0</strong></div>
+              <div><span>Último evento</span><strong id="autoLastEvent">Sin eventos</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="inline-actions wrap">
+        <button class="btn secondary" id="refreshRecordedStepsBtn" type="button">Refrescar pasos</button>
+        <button class="btn secondary" id="checkRecorderStatusBtn" type="button">Verificar conexión</button>
+        <button class="btn secondary" id="cleanupStepsBtnAlt" type="button">Limpiar duplicados</button>
+        <button class="btn ghost" id="copyRecorderUrlBtn" type="button">Copiar endpoint técnico</button>
+      </div>
+      <details class="technical-details">
+        <summary>Ver datos técnicos</summary>
+        <p>Endpoint local:</p>
+        <code id="autoIngestUrl">-</code>
+        <ol id="autoRecorderInstructions"></ol>
+      </details>
+    </div>
+
+    <form id="stepForm" class="form-grid hidden">
+      <label>Orden
+        <input id="stepOrder" type="number" min="1" value="1" required>
+      </label>
+      <label>Acción
+        <select id="actionType">
+          <option value="open">Abrir URL</option>
+          <option value="click">Click</option>
+          <option value="double_click">Doble click</option>
+          <option value="right_click">Click derecho</option>
+          <option value="type">Escribir texto</option>
+          <option value="assert_visible">Validar visible</option>
+          <option value="assert_text">Validar texto</option>
+          <option value="scroll">Scroll</option>
+          <option value="wait">Esperar</option>
+        </select>
+      </label>
+      <label>Tipo de selector
+        <select id="selectorType">
+          <option value="css">CSS</option>
+          <option value="xpath">XPath</option>
+          <option value="id">ID</option>
+          <option value="name">Name</option>
+        </select>
+      </label>
+      <label>Selector
+        <input id="selectorValue" placeholder="#username, [name='q'], //button...">
+      </label>
+      <label>Valor / texto
+        <input id="inputValue" placeholder="Texto a escribir o validar">
+      </label>
+      <label>URL actual
+        <input id="stepUrl" placeholder="https://...">
+      </label>
+      <label class="full-field">Resultado esperado
+        <input id="expectedResult" placeholder="Describe el resultado esperado del paso">
+      </label>
+      <label class="full-field">Notas
+        <textarea id="stepNotes" rows="2" placeholder="Observaciones del paso"></textarea>
+      </label>
+      <div class="full-field recorder-actions-row">
+        <button class="btn primary" type="submit">Guardar paso</button>
+        <button class="btn secondary" id="suggestSelectorBtn" type="button">Sugerir selector</button>
+      </div>
+    </form>
+
+    <div class="steps-toolbar">
+      <h3>Pasos del caso</h3>
+      <p id="stepsSummary">Selecciona un caso para ver los pasos.</p>
+    </div>
+    <div class="table-wrap recorder-steps-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Acción</th>
+            <th>Selector / URL</th>
+            <th>Valor</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="recordedStepsTable"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<div id="recordedCaseModal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>Nuevo caso grabado</h2>
+      <button class="icon-btn" id="closeRecordedCaseModal" type="button">×</button>
+    </div>
+    <form id="recordedCaseForm" class="form-grid">
+      <label>Nombre
+        <input id="caseName" required placeholder="login_recorded_demo">
+      </label>
+      <label>Navegador
+        <select id="caseBrowser">
+          <option value="chrome">Chrome</option>
+          <option value="firefox">Firefox</option>
+          <option value="edge">Edge</option>
+        </select>
+      </label>
+      <label class="full-field">URL base
+        <input id="caseBaseUrl" placeholder="https://the-internet.herokuapp.com/login">
+      </label>
+      <label class="full-field">Descripción
+        <textarea id="caseDescription" rows="3" placeholder="Objetivo del caso grabado"></textarea>
+      </label>
+      <button class="btn primary full-field" type="submit">Crear caso</button>
+    </form>
+  </div>
+</div>
+
+<div id="codeModal" class="modal hidden">
+  <div class="modal-card code-modal-card">
+    <div class="modal-header">
+      <h2>Código generado</h2>
+      <button class="icon-btn" id="closeCodeModal" type="button">×</button>
+    </div>
+    <pre class="code-block"><code id="generatedCode"></code></pre>
+  </div>
+</div>
+
+<div id="exportModal" class="modal hidden">
+  <div class="modal-card code-modal-card">
+    <div class="modal-header">
+      <h2>Exportación profesional</h2>
+      <button class="icon-btn" id="closeExportModal" type="button">×</button>
+    </div>
+    <p class="muted">Previsualiza el Page Object, el test Pytest y genera un ZIP listo para versionar.</p>
+    <div class="inline-actions wrap">
+      <button class="btn primary" id="createExportZipBtn" type="button">Generar ZIP exportable</button>
+      <button class="btn secondary" id="downloadExportZipBtn" type="button">Descargar último ZIP</button>
+    </div>
+    <h3>Page Object</h3>
+    <pre class="code-block"><code id="exportPageObjectCode"></code></pre>
+    <h3>Test Pytest</h3>
+    <pre class="code-block"><code id="exportTestCode"></code></pre>
+    <h3>Guía</h3>
+    <pre class="code-block"><code id="exportReadme"></code></pre>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/recorder.js"></script>
+{% endblock %}

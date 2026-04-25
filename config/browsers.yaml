@@ -1,0 +1,22 @@
+browsers:
+  chrome:
+    enabled: true
+    headless: false
+    maximize: true
+    incognito: false
+    window_width: 1366
+    window_height: 768
+  firefox:
+    enabled: true
+    headless: false
+    maximize: true
+    private: false
+    window_width: 1366
+    window_height: 768
+  edge:
+    enabled: true
+    headless: false
+    maximize: true
+    inprivate: false
+    window_width: 1366
+    window_height: 768

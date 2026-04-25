@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="card">
+  <div class="card-header">
+    <div>
+      <h2>Proyectos de automatización</h2>
+      <p>Administra proyectos, URL base, navegador y estado.</p>
+    </div>
+    <button class="btn primary" id="openProjectModal" type="button">Nuevo proyecto</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Nombre</th><th>URL base</th><th>Navegador</th><th>Estado</th><th>Acciones</th></tr></thead>
+      <tbody id="projectsBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<div class="modal hidden" id="projectModal">
+  <div class="modal-card">
+    <div class="modal-header"><h2>Nuevo proyecto</h2><button class="icon-btn" id="closeProjectModal" type="button">×</button></div>
+    <form id="projectForm" class="form-grid">
+      <label>Nombre <input name="name" required placeholder="Proyecto QA"></label>
+      <label>URL base <input name="base_url" placeholder="https://demo.com"></label>
+      <label>Navegador <select name="default_browser"><option value="chrome">Chrome</option><option value="firefox">Firefox</option><option value="edge">Edge</option></select></label>
+      <label>Estado <select name="status"><option value="ACTIVE">ACTIVE</option><option value="INACTIVE">INACTIVE</option></select></label>
+      <label class="full-field">Descripción <textarea name="description" rows="4"></textarea></label>
+      <button class="btn primary full" type="submit">Guardar proyecto</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/static/js/projects.js"></script>{% endblock %}

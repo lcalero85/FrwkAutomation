@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login | {{ app_name }}</title>
+  <link rel="stylesheet" href="/static/css/app.css">
+  <style>
+    :root {
+      --primary: {{ branding.primary_color or '#2463eb' }};
+      --sidebar-bg: {{ branding.secondary_color or '#0e1930' }};
+    }
+  </style>
+</head>
+<body class="login-body">
+  <main class="login-shell">
+    <section class="login-card">
+      <div class="login-brand">
+        <div class="brand-mark">{{ branding.logo_text or 'AT' }}</div>
+        <div>
+          <h1>{{ branding.company_name or 'AutoTest Pro' }}</h1>
+          <p>{{ app_name }}</p>
+        </div>
+      </div>
+
+      <h2>Iniciar sesión</h2>
+      <p class="muted">{{ branding.tagline or 'Ingresa a la plataforma de automatización QA.' }}</p>
+
+      {% if error %}
+      <div class="alert danger">{{ error }}</div>
+      {% endif %}
+
+      <form method="post" action="/login" class="form-grid single">
+        <label>
+          Usuario
+          <input type="text" name="username" value="admin" required autocomplete="username">
+        </label>
+        <label>
+          Contraseña
+          <input type="password" name="password" placeholder="Admin12345" required autocomplete="current-password">
+        </label>
+        <button class="btn primary full" type="submit">Entrar a la plataforma</button>
+      </form>
+
+      <div class="login-help">
+        <strong>Usuario demo:</strong> admin<br>
+        <strong>Password demo:</strong> Admin12345
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="grid two-columns templates-layout">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h2>Biblioteca de plantillas</h2>
+        <p>Plantillas listas para crear proyectos, suites y casos grabados reutilizables.</p>
+      </div>
+      <div class="row-actions">
+        <select id="templateTypeFilter" style="min-width:150px">
+          <option value="">Todos</option>
+          <option value="PROJECT">Proyectos</option>
+          <option value="SUITE">Suites</option>
+          <option value="CASE">Casos</option>
+        </select>
+        <button class="btn secondary" id="reloadTemplatesBtn" type="button">Actualizar</button>
+      </div>
+    </div>
+
+    <div id="templateCards" class="template-grid"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h2>Aplicar plantilla</h2>
+        <p>Selecciona una plantilla y crea rápidamente artefactos de automatización.</p>
+      </div>
+    </div>
+
+    <div id="selectedTemplateInfo" class="template-detail-box muted">
+      Selecciona una plantilla para ver su estructura y aplicarla.
+    </div>
+
+    <form id="applyTemplateForm" class="form-grid single" style="margin-top:18px">
+      <label>Nombre del proyecto nuevo o existente
+        <input id="applyProjectName" placeholder="Ej. Portal Pacientes QA">
+      </label>
+      <label>ID de proyecto existente opcional
+        <input id="applyProjectId" type="number" min="1" placeholder="Ej. 1">
+      </label>
+      <label>Nombre de suite opcional
+        <input id="applySuiteName" placeholder="Ej. Smoke Suite">
+      </label>
+      <label>URL base opcional
+        <input id="applyBaseUrl" placeholder="https://mi-sistema-qa.com">
+      </label>
+      <label>Navegador por defecto
+        <select id="applyBrowser">
+          <option value="chrome">Chrome</option>
+          <option value="firefox">Firefox</option>
+          <option value="edge">Edge</option>
+        </select>
+      </label>
+      <div class="modal-actions">
+        <button class="btn primary" id="applyTemplateBtn" type="submit" disabled>Aplicar plantilla</button>
+      </div>
+    </form>
+
+    <div id="applyResult" class="run-status hidden"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h2>Crear plantilla personalizada</h2>
+      <p>Puedes crear tus propias plantillas usando JSON para reutilizarlas en nuevos proyectos.</p>
+    </div>
+  </div>
+
+  <form id="createTemplateForm" class="form-grid">
+    <label>Nombre
+      <input id="templateName" required placeholder="Ej. Suite de pagos">
+    </label>
+    <label>Tipo
+      <select id="templateType">
+        <option value="CASE">Caso</option>
+        <option value="SUITE">Suite</option>
+        <option value="PROJECT">Proyecto</option>
+      </select>
+    </label>
+    <label>Categoría
+      <input id="templateCategory" value="Personalizada">
+    </label>
+    <label>Prioridad
+      <select id="templatePriority">
+        <option value="LOW">LOW</option>
+        <option value="MEDIUM" selected>MEDIUM</option>
+        <option value="HIGH">HIGH</option>
+        <option value="CRITICAL">CRITICAL</option>
+      </select>
+    </label>
+    <label class="full-field">Descripción
+      <textarea id="templateDescription" rows="2" placeholder="Describe para qué sirve esta plantilla"></textarea>
+    </label>
+    <label class="full-field">Tags
+      <input id="templateTags" placeholder="login, smoke, regression">
+    </label>
+    <label class="full-field">Payload JSON
+      <textarea id="templatePayload" rows="12"></textarea>
+    </label>
+    <div class="modal-actions">
+      <button class="btn secondary" id="loadCaseSampleBtn" type="button">Cargar ejemplo de caso</button>
+      <button class="btn primary" type="submit">Guardar plantilla</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/templates.js"></script>
+{% endblock %}

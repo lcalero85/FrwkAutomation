@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "AutoTest Pro Recorder",
+  "version": "0.15.0",
+  "description": "Captura acciones del navegador y las envía a AutoTest Pro Framework local.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["http://127.0.0.1:8000/*", "http://localhost:8000/*", "<all_urls>"],
+  "action": {
+    "default_title": "AutoTest Recorder",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}

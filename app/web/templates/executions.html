@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="card">
+  <div class="card-header">
+    <div>
+      <h2>Ejecuciones</h2>
+      <p>Consulta el historial, abre el visor avanzado y compara resultados.</p>
+    </div>
+    <button class="btn primary" id="runDemoQuick" type="button">Ejecutar demo rápida</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Proyecto</th><th>Caso</th><th>Navegador</th><th>Estado</th><th>Éxito</th><th>Duración</th><th>Acciones</th></tr></thead>
+      <tbody id="executionsBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="grid two-columns">
+  <section class="card hidden" id="stepsPanel">
+    <div class="card-header">
+      <div><h2>Detalle rápido de pasos</h2><p id="stepsSubtitle">Ejecución seleccionada</p></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Nombre</th><th>Acción</th><th>Selector</th><th>Estado</th><th>Tiempo</th><th>Mensaje</th></tr></thead>
+        <tbody id="stepsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card hidden" id="comparePanel">
+    <div class="card-header">
+      <div><h2>Comparar ejecuciones</h2><p>Selecciona dos ejecuciones para revisar variación de éxito, fallos y duración.</p></div>
+    </div>
+    <div class="form-grid">
+      <label>Ejecución base
+        <select id="compareLeft"></select>
+      </label>
+      <label>Ejecución comparada
+        <select id="compareRight"></select>
+      </label>
+      <div class="modal-actions">
+        <button class="btn primary" id="compareBtn" type="button">Comparar</button>
+      </div>
+    </div>
+    <div id="compareResult" class="comparison-box hidden"></div>
+  </section>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/static/js/executions.js"></script>{% endblock %}
