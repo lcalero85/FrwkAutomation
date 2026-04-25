@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="card">
+  <div class="card-header">
+    <div>
+      <h2>Preguntas frecuentes</h2>
+      <p>Guía rápida para operar AutoTest Pro Framework durante las pruebas de estabilización.</p>
+    </div>
+  </div>
+  <div class="faq-list">
+    <article><h3>¿Cuál es la versión base estable?</h3><p>La base actual es la Fase 18. Los cambios se trabajan como correcciones incrementales sobre esa versión.</p></article>
+    <article><h3>¿Cómo inicio la aplicación localmente?</h3><p>Activa el entorno virtual, instala dependencias, inicializa SQLite y ejecuta <strong>python api_server.py</strong>.</p></article>
+    <article><h3>¿Dónde ingreso a la plataforma?</h3><p>Abre <strong>http://127.0.0.1:8000/login</strong> e ingresa con el usuario administrador inicial.</p></article>
+    <article><h3>¿Dónde veo la documentación técnica de la API?</h3><p>Entra a <strong>/docs</strong> para usar Swagger y probar endpoints de forma controlada.</p></article>
+    <article><h3>¿Cómo ejecuto una prueba grabada?</h3><p>Ingresa al Grabador, selecciona un caso, valida sus pasos y presiona ejecutar. Luego revisa el visor avanzado de ejecución.</p></article>
+    <article><h3>¿Cómo se capturan acciones automáticamente?</h3><p>Instala la extensión local de Chrome, configura el Case ID y API base, activa la captura y navega en el sistema bajo prueba.</p></article>
+    <article><h3>¿Cómo limpio pasos duplicados del grabador?</h3><p>Desde el módulo Grabador usa la opción de limpieza de duplicados antes de ejecutar o exportar el caso.</p></article>
+    <article><h3>¿Cómo exporto un caso a Page Object?</h3><p>Desde el Grabador abre el caso, usa Exportar Page Object, revisa la vista previa y descarga el ZIP generado.</p></article>
+    <article><h3>¿Dónde se generan los reportes?</h3><p>Los reportes se guardan en las carpetas configuradas para HTML, Excel y PDF. También pueden abrirse desde el módulo Reportes.</p></article>
+    <article><h3>¿Qué hago si no aparecen reportes?</h3><p>Ejecuta primero un caso demo o un caso grabado. Luego entra al módulo Reportes y actualiza la página.</p></article>
+    <article><h3>¿Cómo cambio el idioma?</h3><p>Usa el selector de idioma en la barra superior o el campo Idioma en Configuración. El cambio se aplica a los textos principales de la interfaz.</p></article>
+    <article><h3>¿Cómo cambio el tema visual?</h3><p>Usa el selector de tema en la barra superior o Configuración. El tema queda guardado y se aplica al recargar.</p></article>
+    <article><h3>¿Puedo usar la librería sin la interfaz?</h3><p>Sí. El framework está separado de la interfaz y puede ejecutarse desde consola o integrarse mediante API.</p></article>
+    <article><h3>¿Qué información debo enviar al reportar un bug?</h3><p>Comparte captura, pasos para reproducir, consola del servidor, navegador usado y módulo donde ocurrió.</p></article>
+    <article><h3>¿Cuándo seguimos con nuevas fases?</h3><p>Cuando esta base quede estable con los bugs y mejoras corregidos, se continúa con la siguiente fase funcional.</p></article>
+  </div>
+</section>
+{% endblock %}

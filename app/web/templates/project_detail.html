@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="card project-detail-hero">
+  <div><a class="link-action" href="/ui/projects">Volver a proyectos</a><h2 id="projectName">Proyecto</h2><p id="projectDescription">Cargando información del proyecto...</p><div class="project-meta" id="projectMeta"></div></div>
+  <div class="hero-actions"><a class="btn secondary" href="/ui/recorder">Crear caso grabado</a><a class="btn secondary" href="/ui/scheduler">Programar ejecución</a></div>
+</div>
+<div class="grid stats-grid">
+  <article class="stat-card"><span>Suites</span><strong id="summarySuites">0</strong><small>Asociadas al proyecto</small></article>
+  <article class="stat-card"><span>Test cases</span><strong id="summaryCases">0</strong><small>Casos técnicos</small></article>
+  <article class="stat-card"><span>Grabados</span><strong id="summaryRecorded">0</strong><small>Casos del recorder</small></article>
+  <article class="stat-card accent"><span>Ejecuciones</span><strong id="summaryExecutions">0</strong><small>Historial reciente</small></article>
+</div>
+<div class="grid two-columns project-detail-grid">
+  <section class="card"><div class="card-header"><div><h2>Suites asociadas</h2><p>Suites relacionadas con este proyecto.</p></div></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Suite</th><th>Prioridad</th><th>Estado</th></tr></thead><tbody id="suitesBody"></tbody></table></div></section>
+  <section class="card"><div class="card-header"><div><h2>Casos grabados</h2><p>Flujos creados desde el grabador.</p></div></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Caso</th><th>Browser</th><th>Estado</th></tr></thead><tbody id="recordedBody"></tbody></table></div></section>
+</div>
+<section class="card"><div class="card-header"><div><h2>Últimas ejecuciones del proyecto</h2><p>Resultados recientes asociados por nombre de proyecto.</p></div></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Caso</th><th>Navegador</th><th>Ambiente</th><th>Estado</th><th>Éxito</th><th>Acción</th></tr></thead><tbody id="executionsBody"></tbody></table></div></section>
+{% endblock %}
+{% block scripts %}<script src="/static/js/project_detail.js"></script>{% endblock %}

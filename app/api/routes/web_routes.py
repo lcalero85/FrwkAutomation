@@ -134,6 +134,11 @@ def ui_projects(request: Request):
     return render(request, "projects.html", "projects", "Proyectos")
 
 
+@router.get("/ui/projects/{project_id}", response_class=HTMLResponse)
+def ui_project_detail(request: Request, project_id: int):
+    return render(request, "project_detail.html", "projects", f"Detalle de proyecto #{project_id}")
+
+
 @router.get("/ui/executions", response_class=HTMLResponse)
 def ui_executions(request: Request):
     return render(request, "executions.html", "executions", "Ejecuciones")
@@ -187,3 +192,13 @@ def ui_templates(request: Request):
 @router.get("/ui/settings", response_class=HTMLResponse)
 def ui_settings(request: Request):
     return render(request, "settings.html", "settings", "Configuraciones")
+
+
+@router.get("/ui/faq", response_class=HTMLResponse)
+def ui_faq(request: Request):
+    return render(request, "faq.html", "faq", "Preguntas frecuentes")
+
+
+@router.get("/ui/about", response_class=HTMLResponse)
+def ui_about(request: Request):
+    return render(request, "about.html", "about", "Acerca de")

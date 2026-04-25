@@ -1,0 +1,4 @@
+2026-04-25 09:48:18 | INFO | CliRunner | Starting execution | test=login_demo browser=chrome env=demo headless=False
+2026-04-25 09:48:18 | INFO | DriverFactory | Creating driver for browser=chrome headless=False
+2026-04-25 09:48:49 | INFO | CliRunner | Execution finished successfully in 31.16 seconds
+2026-04-25 09:48:51 | INFO | CliRunner | Browser closed

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="{{ branding.language or 'es' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,7 @@
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body data-current-theme="{{ branding.theme }}">
+<body data-current-theme="{{ branding.theme or 'Corporate Light' }}" data-app-language="{{ branding.language or 'es' }}">
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">
@@ -24,30 +24,29 @@
           <span>{{ app_name }}</span>
         </div>
       </div>
-
       <nav class="nav-menu">
-        <a class="nav-link {% if active == 'dashboard' %}active{% endif %}" href="/ui">Dashboard</a>
-        <a class="nav-link {% if active == 'projects' %}active{% endif %}" href="/ui/projects">Proyectos</a>
-        <a class="nav-link {% if active == 'executions' %}active{% endif %}" href="/ui/executions">Ejecuciones</a>
-        <a class="nav-link {% if active == 'reports' %}active{% endif %}" href="/ui/reports">Reportes</a>
-        <a class="nav-link {% if active == 'recorder' %}active{% endif %}" href="/ui/recorder">Grabador</a>
-        <a class="nav-link {% if active == 'scheduler' %}active{% endif %}" href="/ui/scheduler">Scheduler</a>
-        <a class="nav-link {% if active == 'templates' %}active{% endif %}" href="/ui/templates">Plantillas</a>
-        <a class="nav-link {% if active == 'users' %}active{% endif %}" href="/ui/users">Usuarios</a>
-        <a class="nav-link {% if active == 'profile' %}active{% endif %}" href="/ui/profile">Perfil</a>
+        <a class="nav-link {% if active == 'dashboard' %}active{% endif %}" href="/ui" data-i18n="menu.dashboard">Dashboard</a>
+        <a class="nav-link {% if active == 'projects' %}active{% endif %}" href="/ui/projects" data-i18n="menu.projects">Proyectos</a>
+        <a class="nav-link {% if active == 'recorder' %}active{% endif %}" href="/ui/recorder" data-i18n="menu.recorder">Grabador</a>
+        <a class="nav-link {% if active == 'scheduler' %}active{% endif %}" href="/ui/scheduler" data-i18n="menu.scheduler">Scheduler</a>
+        <a class="nav-link {% if active == 'executions' %}active{% endif %}" href="/ui/executions" data-i18n="menu.executions">Ejecuciones</a>
+        <a class="nav-link {% if active == 'reports' %}active{% endif %}" href="/ui/reports" data-i18n="menu.reports">Reportes</a>
+        <a class="nav-link {% if active == 'templates' %}active{% endif %}" href="/ui/templates" data-i18n="menu.templates">Plantillas</a>
+        <a class="nav-link {% if active == 'profile' %}active{% endif %}" href="/ui/profile" data-i18n="menu.profile">Perfil</a>
+        <a class="nav-link {% if active == 'users' %}active{% endif %}" href="/ui/users" data-i18n="menu.users">Usuarios</a>
         {% if 'security.audit' in current_user.permissions %}
-        <a class="nav-link {% if active == 'audit' %}active{% endif %}" href="/ui/audit">Auditoría</a>
+        <a class="nav-link {% if active == 'audit' %}active{% endif %}" href="/ui/audit" data-i18n="menu.audit">Auditoría</a>
         {% endif %}
-        <a class="nav-link {% if active == 'settings' %}active{% endif %}" href="/ui/settings">Configuración</a>
+        <a class="nav-link {% if active == 'settings' %}active{% endif %}" href="/ui/settings" data-i18n="menu.settings">Configuración</a>
+        <a class="nav-link {% if active == 'faq' %}active{% endif %}" href="/ui/faq" data-i18n="menu.faq">Preguntas frecuentes</a>
+        <a class="nav-link {% if active == 'about' %}active{% endif %}" href="/ui/about" data-i18n="menu.about">Acerca de</a>
       </nav>
-
       <div class="sidebar-footer">
         <span>Versión {{ version }}</span>
         <span>{{ branding.support_email }}</span>
         <a href="/docs" target="_blank">Swagger API</a>
       </div>
     </aside>
-
     <main class="main-content">
       <header class="topbar">
         <div>
@@ -56,18 +55,17 @@
         </div>
         <div class="topbar-actions">
           <span class="user-chip">{{ current_user.full_name }} · {{ current_user.role or 'Sin rol' }}</span>
-          <button class="btn secondary" id="themeToggle" type="button">Cambiar tema</button>
-          <a class="btn ghost" href="/docs" target="_blank">API Docs</a>
-          <a class="btn danger-soft" href="/logout">Salir</a>
+          <label class="theme-picker"><span data-i18n="topbar.theme">Tema</span><select id="themeSelector" aria-label="Cambiar tema visual"></select></label>
+          <label class="theme-picker language-picker"><span data-i18n="topbar.language">Idioma</span><select id="languageSelector" aria-label="Cambiar idioma"><option value="es">Español</option><option value="en">English</option></select></label>
+          <a class="btn ghost" href="/docs" target="_blank" data-i18n="topbar.apiDocs">API Docs</a>
+          <a class="btn danger-soft" href="/logout" data-i18n="topbar.logout">Salir</a>
         </div>
       </header>
-
       <section class="content-panel">
         {% block content %}{% endblock %}
       </section>
     </main>
   </div>
-
   <div id="toast" class="toast hidden"></div>
   <script src="/static/js/app.js"></script>
   {% block scripts %}{% endblock %}

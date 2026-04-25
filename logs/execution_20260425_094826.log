@@ -1,0 +1,7 @@
+2026-04-25 09:48:26 | INFO | LoginPage | Opening URL: https://the-internet.herokuapp.com/login
+2026-04-25 09:48:48 | INFO | LoginPage | Typing into selector: #username
+2026-04-25 09:48:48 | INFO | LoginPage | Typing into selector: #password
+2026-04-25 09:48:48 | INFO | LoginPage | Clicking selector: button[type='submit']
+2026-04-25 09:48:49 | INFO | LoginPage | Assertion passed: URL contains '/secure'
+2026-04-25 09:48:49 | INFO | LoginPage | Assertion passed: text contains 'You logged into a secure area'
+2026-04-25 09:48:49 | INFO | LoginPage | Assertion passed: visible .example h2

@@ -2,7 +2,9 @@ const settingFields = [
   "app_name", "company_name", "support_email", "website_url", "logo_text", "tagline",
   "primary_color", "secondary_color", "theme", "language", "timezone", "reports_path",
   "logs_path", "screenshots_path", "videos_path", "default_browser", "default_environment",
-  "execution_timeout", "screenshot_on_failure", "screenshot_each_step", "smtp_server",
+  "execution_timeout", "screenshot_on_failure", "screenshot_each_step", "date_format", "session_timeout_minutes",
+  "default_parallel_workers", "retry_failed_tests", "max_retry_count", "auto_open_latest_report", "mask_sensitive_data",
+  "audit_retention_days", "reports_retention_days", "default_report_formats", "smtp_server",
   "smtp_port", "smtp_user", "smtp_password", "smtp_sender", "smtp_use_tls", "smtp_use_ssl", "smtp_default_recipients"
 ];
 
@@ -35,6 +37,12 @@ function fillSettingsForm(data) {
       el.value = data[field];
     }
   }
+  if (window.applyTheme && data.theme) window.applyTheme(data.theme);
+  if (window.applyLanguage && data.language) window.applyLanguage(data.language);
+  const topTheme = document.getElementById("themeSelector");
+  if (topTheme && data.theme) topTheme.value = data.theme;
+  const topLang = document.getElementById("languageSelector");
+  if (topLang && data.language) topLang.value = data.language;
   updatePreview();
 }
 
@@ -74,7 +82,13 @@ async function saveSettings(event) {
     const payload = readSettingsForm();
     const data = await apiPut("/api/settings", payload);
     fillSettingsForm(data);
-    toast("Configuración guardada correctamente. Recarga la página para ver todos los cambios.");
+    if (window.applyTheme && data.theme) {
+      localStorage.setItem("autotest_theme", data.theme);
+      window.applyTheme(data.theme);
+    }
+    document.body.dataset.appLanguage = data.language || "es";
+    if (window.applyLanguage) window.applyLanguage();
+    toast("Configuración guardada y aplicada correctamente.");
   } catch (error) {
     toast("No se pudo guardar la configuración");
   }
@@ -99,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (resetBtn) resetBtn.addEventListener("click", resetSettings);
   for (const field of settingFields) {
     const el = document.getElementById(field);
-    if (el) el.addEventListener("input", updatePreview);
+    if (el) el.addEventListener("input", () => { updatePreview(); if (field === "theme" && window.applyTheme) window.applyTheme(el.value); if (field === "language" && window.applyLanguage) window.applyLanguage(el.value); });
   }
 });
 

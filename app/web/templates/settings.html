@@ -83,6 +83,37 @@
           <option value="true">Sí</option>
         </select>
       </label>
+
+      <label>Formato de fecha
+        <input id="date_format" name="date_format" placeholder="YYYY-MM-DD HH:mm">
+      </label>
+      <label>Timeout de sesión en minutos
+        <input id="session_timeout_minutes" name="session_timeout_minutes" type="number" min="5">
+      </label>
+      <label>Workers paralelos por defecto
+        <input id="default_parallel_workers" name="default_parallel_workers" type="number" min="1">
+      </label>
+      <label>Reintentar pruebas fallidas
+        <select id="retry_failed_tests" name="retry_failed_tests"><option value="false">No</option><option value="true">Sí</option></select>
+      </label>
+      <label>Cantidad máxima de reintentos
+        <input id="max_retry_count" name="max_retry_count" type="number" min="0">
+      </label>
+      <label>Abrir último reporte al finalizar
+        <select id="auto_open_latest_report" name="auto_open_latest_report"><option value="false">No</option><option value="true">Sí</option></select>
+      </label>
+      <label>Enmascarar datos sensibles
+        <select id="mask_sensitive_data" name="mask_sensitive_data"><option value="true">Sí</option><option value="false">No</option></select>
+      </label>
+      <label>Retención de auditoría en días
+        <input id="audit_retention_days" name="audit_retention_days" type="number" min="1">
+      </label>
+      <label>Retención de reportes en días
+        <input id="reports_retention_days" name="reports_retention_days" type="number" min="1">
+      </label>
+      <label>Formatos de reporte por defecto
+        <input id="default_report_formats" name="default_report_formats" placeholder="html,excel,pdf">
+      </label>
       <label>Ruta de reportes
         <input id="reports_path" name="reports_path">
       </label>

@@ -1,63 +1,54 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="grid stats-grid">
-  <article class="stat-card"><span>Proyectos</span><strong id="metricProjects">0</strong><small>Total registrados</small></article>
+<div class="dashboard-hero card">
+  <div>
+    <p class="eyebrow">Centro de control</p>
+    <h2>Resumen ejecutivo de automatización</h2>
+    <p>Visualiza salud general, actividad reciente, reportes, casos grabados y rendimiento de ejecución.</p>
+  </div>
+  <div class="hero-actions">
+    <a class="btn primary" id="latestReportBtn" href="/ui/reports">Ver último reporte generado</a>
+    <a class="btn secondary" href="/ui/executions">Ver ejecuciones</a>
+  </div>
+</div>
+<div class="grid stats-grid dashboard-stats">
+  <article class="stat-card"><span>Proyectos</span><strong id="metricProjects">0</strong><small id="metricActiveProjects">Activos: 0</small></article>
   <article class="stat-card"><span>Suites</span><strong id="metricSuites">0</strong><small>Suites disponibles</small></article>
-  <article class="stat-card"><span>Casos</span><strong id="metricCases">0</strong><small>Casos de prueba</small></article>
-  <article class="stat-card accent"><span>Éxito</span><strong id="metricSuccess">0%</strong><small>Porcentaje global</small></article>
+  <article class="stat-card"><span>Casos</span><strong id="metricCases">0</strong><small id="metricRecordedCases">Grabados: 0</small></article>
+  <article class="stat-card accent"><span>Éxito global</span><strong id="metricSuccess">0%</strong><small id="metricLastStatus">Última ejecución: -</small></article>
+  <article class="stat-card"><span>Ejecuciones</span><strong id="metricExecutions">0</strong><small id="metricAvgDuration">Promedio: 0.00 s</small></article>
+  <article class="stat-card"><span>Reportes</span><strong id="metricReports">0</strong><small>HTML / Excel / PDF</small></article>
+  <article class="stat-card"><span>Jobs</span><strong id="metricJobs">0</strong><small>Scheduler</small></article>
+  <article class="stat-card"><span>Fallidas</span><strong id="metricFailed">0</strong><small>Requieren revisión</small></article>
 </div>
-
-<div class="grid two-columns">
+<div class="grid dashboard-charts">
+  <section class="card"><div class="card-header"><div><h2>Distribución de resultados</h2><p>Passed, failed y skipped.</p></div></div><canvas id="resultChart" height="150"></canvas></section>
+  <section class="card"><div class="card-header"><div><h2>Ejecuciones por navegador</h2><p>Uso reciente por Chrome, Firefox y Edge.</p></div></div><canvas id="browserChart" height="150"></canvas></section>
+  <section class="card"><div class="card-header"><div><h2>Tendencia reciente</h2><p>Últimas ejecuciones registradas.</p></div></div><canvas id="trendChart" height="150"></canvas></section>
+</div>
+<div class="grid dashboard-insights">
   <section class="card">
-    <div class="card-header">
-      <div>
-        <h2>Resumen de resultados</h2>
-        <p>Distribución de ejecuciones exitosas y fallidas.</p>
-      </div>
+    <div class="card-header"><div><h2>Estado operativo</h2><p>Validaciones rápidas del entorno local.</p></div></div>
+    <div class="mini-metrics">
+      <div><span>API</span><strong id="healthApi">Pendiente</strong></div>
+      <div><span>Base de datos</span><strong id="healthDb">SQLite activa</strong></div>
+      <div><span>Reportería</span><strong id="healthReports">HTML / Excel / PDF</strong></div>
+      <div><span>Seguridad</span><strong id="healthSecurity">Login activo</strong></div>
     </div>
-    <canvas id="resultChart" height="140"></canvas>
   </section>
-
   <section class="card">
-    <div class="card-header">
-      <div>
-        <h2>Ejecutar demo</h2>
-        <p>Ejecuta el caso login_demo desde la interfaz.</p>
-      </div>
+    <div class="card-header"><div><h2>Accesos rápidos</h2><p>Atajos para operación diaria del framework.</p></div></div>
+    <div class="quick-links-grid">
+      <a class="btn secondary" href="/ui/projects">Gestionar proyectos</a>
+      <a class="btn secondary" href="/ui/recorder">Abrir grabador</a>
+      <a class="btn secondary" href="/ui/scheduler">Programar ejecución</a>
+      <a class="btn secondary" href="/ui/templates">Usar plantillas</a>
     </div>
-
-    <form id="runDemoForm" class="form-grid">
-      <label>Navegador
-        <select name="browser"><option value="chrome">Chrome</option><option value="firefox">Firefox</option><option value="edge">Edge</option></select>
-      </label>
-      <label>Ambiente
-        <input name="environment" value="demo">
-      </label>
-      <label>Reportes
-        <input name="report" value="html,excel,pdf">
-      </label>
-      <label class="checkbox-row"><input type="checkbox" name="headless"> Ejecutar headless</label>
-      <button class="btn primary full" type="submit">Ejecutar prueba demo</button>
-    </form>
-
-    <div id="runStatus" class="run-status hidden"></div>
   </section>
 </div>
-
 <section class="card">
-  <div class="card-header">
-    <div>
-      <h2>Últimas ejecuciones</h2>
-      <p>Historial reciente almacenado en SQLite.</p>
-    </div>
-    <a class="btn secondary" href="/ui/executions">Ver todas</a>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>ID</th><th>Caso</th><th>Navegador</th><th>Ambiente</th><th>Estado</th><th>Duración</th></tr></thead>
-      <tbody id="latestExecutionsBody"></tbody>
-    </table>
-  </div>
+  <div class="card-header"><div><h2>Últimas ejecuciones</h2><p>Historial reciente almacenado en SQLite.</p></div><a class="btn secondary" href="/ui/executions">Ver todas</a></div>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th>Caso</th><th>Navegador</th><th>Ambiente</th><th>Estado</th><th>Éxito</th><th>Duración</th><th>Acción</th></tr></thead><tbody id="latestExecutionsBody"></tbody></table></div>
 </section>
 {% endblock %}
 {% block scripts %}<script src="/static/js/dashboard.js"></script>{% endblock %}

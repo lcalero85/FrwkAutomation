@@ -2,20 +2,11 @@
 {% block content %}
 <section class="card">
   <div class="card-header">
-    <div>
-      <h2>Proyectos de automatización</h2>
-      <p>Administra proyectos, URL base, navegador y estado.</p>
-    </div>
+    <div><h2>Proyectos de automatización</h2><p>Administra proyectos, URL base, navegador y estado.</p></div>
     <button class="btn primary" id="openProjectModal" type="button">Nuevo proyecto</button>
   </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>ID</th><th>Nombre</th><th>URL base</th><th>Navegador</th><th>Estado</th><th>Acciones</th></tr></thead>
-      <tbody id="projectsBody"></tbody>
-    </table>
-  </div>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th>Nombre</th><th>URL base</th><th>Navegador</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="projectsBody"></tbody></table></div>
 </section>
-
 <div class="modal hidden" id="projectModal">
   <div class="modal-card">
     <div class="modal-header"><h2>Nuevo proyecto</h2><button class="icon-btn" id="closeProjectModal" type="button">×</button></div>

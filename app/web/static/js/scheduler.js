@@ -33,7 +33,7 @@ async function runJobNow(id) {
     toast("Ejecutando job programado...");
     const result = await apiPost(`/api/scheduler/jobs/${id}/run-now`, {});
     toast(`Ejecución generada: ${result.execution_id} - ${result.status}`);
-    await loadSchedulerJobs();
+    await loadSchedulerJobs(); if (window.applyLanguage) window.applyLanguage();
   } catch (error) {
     toast(error.message);
   }
@@ -107,5 +107,5 @@ function initQuickRun() {
 document.addEventListener("DOMContentLoaded", () => {
   initJobModal();
   initQuickRun();
-  loadSchedulerJobs();
+  loadSchedulerJobs().then(() => { if (window.applyLanguage) window.applyLanguage(); });
 });
