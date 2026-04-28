@@ -22,6 +22,8 @@ class SettingsPayload(BaseModel):
     secondary_color: str = Field(default="#0e1930", max_length=20)
     theme: str = Field(default="Corporate Light", max_length=80)
     language: str = Field(default="es", max_length=10)
+    font_family: str = Field(default="Inter, Segoe UI, Arial, sans-serif", max_length=120)
+    font_size: str = Field(default="15", max_length=8)
     timezone: str = Field(default="America/El_Salvador", max_length=80)
     reports_path: str = Field(default="reports", max_length=240)
     logs_path: str = Field(default="logs", max_length=240)

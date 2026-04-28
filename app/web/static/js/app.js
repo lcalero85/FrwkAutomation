@@ -13,184 +13,156 @@ const THEME_OPTIONS = {
   "White Label Neutral": { bg: "#f7f7f8", surface: "#ffffff", surface2: "#fbfbfc", text: "#202124", muted: "#6f7378", primary: "#3f5f7f", sidebar: "#2d3748", border: "#e6e8eb" }
 };
 
-const I18N = {
-  es: {
-    "menu.dashboard": "Dashboard", "menu.projects": "Proyectos", "menu.recorder": "Grabador", "menu.scheduler": "Scheduler", "menu.executions": "Ejecuciones", "menu.reports": "Reportes", "menu.templates": "Plantillas", "menu.profile": "Perfil", "menu.users": "Usuarios", "menu.audit": "Auditoría", "menu.settings": "Configuración", "menu.faq": "Preguntas frecuentes", "menu.about": "Acerca de",
-    "topbar.theme": "Tema", "topbar.language": "Idioma", "topbar.logout": "Salir", "topbar.apiDocs": "API Docs"
-  },
-  en: {
-    "menu.dashboard": "Dashboard", "menu.projects": "Projects", "menu.recorder": "Recorder", "menu.scheduler": "Scheduler", "menu.executions": "Executions", "menu.reports": "Reports", "menu.templates": "Templates", "menu.profile": "Profile", "menu.users": "Users", "menu.audit": "Audit", "menu.settings": "Settings", "menu.faq": "FAQ", "menu.about": "About",
-    "topbar.theme": "Theme", "topbar.language": "Language", "topbar.logout": "Logout", "topbar.apiDocs": "API Docs"
+const I18N_PAIRS = [
+  ["Panel principal","Dashboard"],["Dashboard","Dashboard"],["Proyectos","Projects"],["Grabador","Recorder"],["Programador","Scheduler"],["Ejecuciones","Executions"],["Reportes","Reports"],["Plantillas","Templates"],["Perfil","Profile"],["Usuarios","Users"],["Auditoría","Audit"],["Configuración","Settings"],["Preguntas frecuentes","FAQ"],["Acerca de","About"],["API Swagger","Swagger API"],["Documentación API","API Docs"],["Salir","Logout"],["Tema","Theme"],["Idioma","Language"],
+  ["Plataforma de Automatización QA","QA Automation Platform"],["QA AUTOMATION PLATFORM","QA AUTOMATION PLATFORM"],["Administrador del sistema","System Administrator"],["Administrador","Administrator"],["Administrador del sistema · Administrador","System Administrator · Administrator"],["Administrador del sistema · Administrator","System Administrator · Administrator"],["System Administrator · Administrador","System Administrator · Administrator"],["Sin rol","No role"],["Versión","Version"],
+  ["Centro de control","Control center"],["Resumen ejecutivo de automatización","Automation executive summary"],["Visualiza salud general, actividad reciente, reportes, casos grabados y rendimiento de ejecución.","View overall health, recent activity, reports, recorded cases, and execution performance."],["Ver reportes","View reports"],["Ver ejecuciones","View executions"],["Ver todas","View all"],["Ver último reporte generado","View latest generated report"],
+  ["Proyectos","Projects"],["Suites","Suites"],["Casos","Cases"],["Éxito global","Global success"],["Última ejecución","Last execution"],["Fallidas","Failed"],["Requieren revisión","Require review"],["Ejecuciones","Executions"],["Promedio","Average"],["Trabajos","Jobs"],["Jobs","Jobs"],
+  ["Distribución de resultados","Result distribution"],["Result distribution","Result distribution"],["Passed, failed y skipped.","Passed, failed, and skipped."],["Aprobadas, fallidas y omitidas.","Passed, failed, and skipped."],["Ejecuciones por navegador","Executions by browser"],["Uso reciente por Chrome, Firefox y Edge.","Recent usage by Chrome, Firefox, and Edge."],["Tendencia reciente","Recent trend"],["Últimas ejecuciones registradas.","Latest recorded executions."],["Últimas ejecuciones","Latest executions"],["Historial reciente almacenado en SQLite.","Recent history stored in SQLite."],["No hay ejecuciones registradas todavía.","No executions have been recorded yet."],["Aún no hay ejecuciones registradas.","No executions have been recorded yet."],
+  ["Estado operativo","Operational status"],["Validaciones rápidas del entorno local.","Quick checks of the local environment."],["Accesos rápidos","Quick access"],["Atajos para operación diaria del framework.","Shortcuts for daily framework operation."],["Base de datos","Database"],["BASE DE DATOS","DATABASE"],["Reportería","Reporting"],["REPORTERIA","REPORTING"],["Seguridad","Security"],["SEGURIDAD","SECURITY"],["Operativa","Operational"],["Operacional","Operational"],["SQLite activa","SQLite active"],["Login activo","Active login"],["Gestionar proyectos","Manage projects"],["Abrir grabador","Open recorder"],["Programar ejecución","Schedule execution"],["Usar plantillas","Use templates"],
+  ["Proyectos de automatización","Automation projects"],["Administra proyectos, URL base, navegador y estado.","Manage projects, base URL, browser, and status."],["Nuevo proyecto","New project"],["Guardar proyecto","Save project"],["Ver detalle","View details"],["View details","View details"],["Abrir / Ver proyecto","Open / View project"],["Eliminar","Delete"],["Acciones","Actions"],["ACCIÓN","ACTION"],["ACCIONES","ACTIONS"],["EJECUCIÓN","EXECUTION"],["PROYECTO","PROJECT"],["NAVEGADOR","BROWSER"],["ESTADO","STATUS"],["ÉXITO","SUCCESS"],["DURACIÓN","DURATION"],["FECHA","DATE"],["DETALLE","DETAIL"],["PRUEBA","TEST"],
+  ["Nombre","Name"],["NOMBRE","NAME"],["Descripción","Description"],["DESCRIPCIÓN","DESCRIPTION"],["URL base","Base URL"],["Navegador","Browser"],["Estado","Status"],["Ambiente","Environment"],["Prioridad","Priority"],["Categoría","Category"],["Tipo","Type"],["Fecha","Date"],["Duración","Duration"],["Tiempo","Time"],["Mensaje","Message"],["Módulo","Module"],["Acción","Action"],["Valor","Value"],["Selector","Selector"],["Resultado esperado","Expected result"],["Prueba","Test"],["Éxito","Success"],["Activo","Active"],["Inactivo","Inactive"],["Activos","Active"],["Grabados","Recorded"],["Asociadas al proyecto","Associated with the project"],["Casos del recorder","Recorder cases"],["Casos del grabador","Recorder cases"],["Casos técnicos","Technical cases"],["Suites disponibles","Available suites"],["Suites asociadas","Associated suites"],["Casos de prueba","Test cases"],
+  ["Detalle de proyecto","Project details"],["Volver a proyectos","Back to projects"],["Crear caso grabado","Create recorded case"],["Resultados recientes asociados por nombre de proyecto.","Recent results associated by project name."],["Este proyecto aún no tiene ejecuciones registradas.","This project does not have recorded executions yet."],["Proyecto demo inicial creado por seed de base de datos","Initial demo project created by database seed"],["Suite demo para login básico","Basic login demo suite"],["Suites relacionadas con este proyecto.","Suites related to this project."],["Flujos creados desde el grabador.","Flows created from the recorder."],
+  ["Grabador de pasos","Step recorder"],["Crear, capturar y ejecutar casos automatizados","Create, capture, and execute automated cases"],["Primero crea o selecciona un caso. Luego usa el modo manual o el grabador automático con la extensión de Chrome. El panel te guía paso a paso.","First create or select a case. Then use manual mode or the automatic recorder with the Chrome extension. The panel guides you step by step."],["Casos grabados","Recorded cases"],["Administra los casos que se capturan manualmente o desde la extensión.","Manage cases captured manually or from the extension."],["Administrar casos capturados manualmente o desde la extensión.","Manage cases captured manually or from the extension."],["Nuevo caso","New case"],["Detalle del caso","Case details"],["Detalles del caso","Case details"],["Selecciona un caso para ver o agregar pasos.","Select a case to view or add steps."],["Selecciona un caso para ver los pasos.","Select a case to view the steps."],["Selecciona un caso para comenzar","Select a case to begin"],["Usa el botón Nuevo caso. Después podrás capturar pasos de forma manual o automática.","Use the New case button. Then you can capture steps manually or automatically."],["Pasos del caso","Case steps"],["Selecciona un caso.","Select a case."],["Ejecutar caso","Run case"],["Generar código","Generate code"],["Exportar Page Object","Export Page Object"],["Descargar ZIP","Download ZIP"],["PASOS","STEPS"],["SELECTOR / URL","SELECTOR / URL"],
+  ["Programador de ejecuciones","Execution scheduler"],["Scheduler y orquestador","Scheduler and orchestrator"],["Agenda ejecuciones demo y administra trabajos recurrentes.","Schedule demo executions and manage recurring jobs."],["Nuevo job","New job"],["Frecuencia","Frequency"],["Próxima ejecución","Next execution"],["Pendiente de cálculo","Pending calculation"],["Orquestador rápido","Quick orchestrator"],["Ejecuta el caso demo desde esta pantalla y valida la integración API + Selenium + reportes.","Run the demo case from this screen and validate the API + Selenium + reports integration."],["Ejecutar ahora","Run now"],["Ejecutar headless","Run headless"],["Listo para ejecutar.","Ready to run."],["Ejecutar demo rápida","Run quick demo"],
+  ["Consulta el historial, abre el visor avanzado y compara resultados.","Review the history, open the advanced viewer, and compare results."],["No executions registered yet.","No executions registered yet."],["No executions have been recorded yet.","No executions have been recorded yet."],
+  ["Reportes generados","Generated reports"],["Consulta, visualiza y descarga reportes HTML, Excel, PDF y evidencias por ejecución.","Search, view, and download HTML, Excel, PDF reports and execution evidence."],["No hay reportes generados todavía.","No reports have been generated yet."],["No hay reportes generados.","No reports have been generated yet."],
+  ["Plantillas profesionales","Professional templates"],["Biblioteca de plantillas","Template library"],["Plantillas listas para crear proyectos, suites y casos grabados reutilizables.","Templates ready to create reusable projects, suites, and recorded cases."],["Aplicar plantilla","Apply template"],["Selecciona una plantilla y crea rápidamente artefactos de automatización.","Select a template and quickly create automation artifacts."],["Selecciona una plantilla para ver su estructura y aplicarla.","Select a template to view its structure and apply it."],["Nombre del proyecto nuevo o existente","New or existing project name"],["ID de proyecto existente opcional","Optional existing project ID"],["Nombre de suite opcional","Optional suite name"],["URL base opcional","Optional base URL"],["Ej. Portal Pacientes QA","Ex. QA Patient Portal"],["Ej. Smoke Suite","Ex. Smoke Suite"],["Ej. 1","Ex. 1"],["https://mi-sistema-qa.com","https://my-qa-system.com"],["Crear plantilla personalizada","Create custom template"],["Puedes crear tus propias plantillas usando JSON para reutilizarlas en nuevos proyectos.","You can create your own templates using JSON to reuse them in new projects."],["Caso CRUD básico","Basic CRUD Case"],["Caso formulario con validaciones obligatorias","Form Case with Required Validations"],["Proyecto QA Web Smoke + Regression","QA Web Smoke + Regression Project"],["Suite de Login y Seguridad","Login and Security Suite"],["Crea un proyecto con suites iniciales de Smoke y Regression y casos listos para completar.","Create a project with initial Smoke and Regression suites and cases ready to complete."],["Suite lista para cubrir login exitoso, credenciales inválidas y cierre de sesión.","Suite ready to cover successful login, invalid credentials, and logout."],["Plantilla genérica para crear, validar, editar y eliminar un registro.","Generic template to create, validate, edit, and delete a record."],["Plantilla para validar campos requeridos, mensajes y flujo negativo.","Template to validate required fields, messages, and negative flow."],["Caso","Case"],["Proyecto","Project"],["Sistema","System"],["Funcional","Functional"],["Autenticación","Authentication"],["Validaciones","Validations"],["Seleccionar","Select"],["Todos","All"],["Actualizar","Refresh"],["Payload JSON","JSON payload"],["Cargar ejemplo de caso","Load case sample"],["Guardar plantilla","Save template"],["Personalizada","Custom"],["Ej. Suite de pagos","Ex. Payment suite"],["Describe para qué sirve esta plantilla","Describe what this template is for"],
+  ["Perfil y seguridad","Profile and security"],["Mi perfil","My profile"],["Información de la sesión actual y permisos asignados.","Current session information and assigned permissions."],["Cambiar contraseña","Change password"],["Actualiza tu contraseña de acceso.","Update your access password."],["Contraseña actual","Current password"],["Nueva contraseña","New password"],["Actualizar contraseña","Update password"],["Permisos","Permissions"],["Usuario","Username"],["Rol","Role"],
+  ["Usuarios y roles","Users and roles"],["Administra usuarios de la plataforma y sus roles.","Manage platform users and their roles."],["Nuevo usuario","New user"],["Roles iniciales para control de acceso.","Initial roles for access control."],["Acceso completo a la plataforma","Full platform access"],["Puede crear y ejecutar pruebas automatizadas","Can create and run automated tests"],["Puede gestionar proyectos, suites, ejecuciones y reportes","Can manage projects, suites, executions, and reports"],["Visualizador","Viewer"],["Acceso de solo lectura a resultados y reportes","Read-only access to results and reports"],["Correo","Email"],
+  ["Auditoría de acciones","Action audit"],["Registro de inicios de sesión, cambios de seguridad y administración.","Record of sign-ins, security changes, and administration."],["No hay eventos de auditoría.","No audit events found."],["Detalle","Detail"],
+  ["Marca blanca","White label"],["Configura nombre, logo, colores y datos comerciales de la plataforma.","Customize name, logo, colors, and business information."],["Nombre de la aplicación","Application name"],["Nombre comercial / empresa","Business name / company"],["Texto del logo","Logo text"],["Texto superior","Top text"],["Color principal","Primary color"],["Color sidebar","Sidebar color"],["Correo de soporte","Support email"],["Sitio web","Website"],["Tema visual","Visual theme"],["Fuente de la aplicación","Application font"],["Tamaño de fuente base","Base font size"],["Zona horaria","Time zone"],["Ambiente por defecto","Default environment"],["Timeout global en segundos","Global timeout in seconds"],["Captura en fallo","Screenshot on failure"],["Captura en cada paso","Screenshot on each step"],["Screenshot en fallo","Screenshot on failure"],["Screenshot en cada paso","Screenshot on each step"],["Formato de fecha","Date format"],["Timeout de sesión en minutos","Session timeout in minutes"],["Workers paralelos por defecto","Default parallel workers"],["Reintentar pruebas fallidas","Retry failed tests"],["Cantidad máxima de reintentos","Maximum retry count"],["Enmascarar datos sensibles","Mask sensitive data"],["Retención de auditoría en días","Audit retention in days"],["Retención de reportes en días","Report retention in days"],["Formatos de reporte por defecto","Default report formats"],["Ruta de reportes","Reports path"],["Ruta de logs","Logs path"],["Ruta de screenshots","Screenshots path"],["Ruta de videos","Videos path"],["Guardar configuración","Save settings"],["Restaurar valores","Restore defaults"],["SMTP y notificaciones","SMTP and notifications"],["Configura y valida el envío real de reportes por correo.","Configure and validate real report delivery by email."],["Servidor SMTP","SMTP server"],["Puerto SMTP","SMTP port"],["Usuario SMTP","SMTP user"],["Contraseña SMTP / App password","SMTP password / App password"],["Correo remitente","Sender email"],["Usar TLS","Use TLS"],["Usar SSL directo","Use direct SSL"],["Destinatarios por defecto","Default recipients"],["Vista previa de marca","Brand preview"],["Sí","Yes"],["No","No"],["Dejar vacío si no deseas cambiarla","Leave blank if you do not want to change it"],["Correo para prueba SMTP","SMTP test email"],["Enviar correo de prueba","Send test email"],
+  ["Guía rápida para operar AutoTest Pro Framework durante las pruebas de estabilización.","Quick guide to operate AutoTest Pro Framework during stabilization testing."],["¿Cuál es la versión base estable?","What is the stable baseline version?"],["La base actual es la Fase 18. Los cambios se trabajan como correcciones incrementales sobre esa versión.","The current baseline is Phase 18. Changes are handled as incremental fixes on top of that version."],["¿Cómo inicio la aplicación localmente?","How do I start the application locally?"],["Activa el entorno virtual, instala dependencias, inicializa SQLite y ejecuta python api_server.py.","Activate the virtual environment, install dependencies, initialize SQLite, and run python api_server.py."],["¿Dónde accedo a la plataforma?","Where do I access the platform?"],["Abre http://127.0.0.1:8000/login e ingresa con el usuario administrador inicial.","Open http://127.0.0.1:8000/login and sign in with the initial administrator user."],["¿Dónde veo la documentación técnica de la API?","Where do I see the technical API documentation?"],["Entra a /docs para usar Swagger y probar endpoints de forma controlada.","Go to /docs to use Swagger and test endpoints in a controlled way."],["¿Cómo ejecuto una prueba grabada?","How do I run a recorded test?"],["Ingresa al Grabador, selecciona un caso, valida sus pasos y presiona ejecutar. Luego revisa el visor avanzado de ejecución.","Open the Recorder, select a case, validate its steps, and press run. Then review the advanced execution viewer."],["¿Cómo se capturan acciones automáticamente?","How are actions captured automatically?"],["Instala la extensión local de Chrome, configura el Case ID y API base, activa la captura y navega en el sistema bajo prueba.","Install the local Chrome extension, configure the Case ID and API base, enable capture, and browse the system under test."],["¿Cómo limpio pasos duplicados del grabador?","How do I clean duplicate recorder steps?"],["Desde el módulo Grabador usa la opción de limpieza de duplicados antes de ejecutar o exportar el caso.","From the Recorder module, use duplicate cleanup before running or exporting the case."],["¿Cómo exporto un caso a Page Object?","How do I export a case to Page Object?"],["Desde el Grabador abre el caso, usa Exportar Page Object, revisa la vista previa y descarga el ZIP generado.","From the Recorder, open the case, use Export Page Object, review the preview, and download the generated ZIP."],["¿Dónde se generan los reportes?","Where are reports generated?"],["Los reportes se guardan en las carpetas configuradas para HTML, Excel y PDF. También pueden abrirse desde el módulo Reportes.","Reports are saved in the configured folders for HTML, Excel, and PDF. They can also be opened from the Reports module."],["¿Qué hago si no aparecen reportes?","What should I do if reports do not appear?"],["Ejecuta primero un caso demo o un caso grabado. Luego entra al módulo Reportes y actualiza la página.","First run a demo case or a recorded case. Then open the Reports module and refresh the page."],["¿Cómo cambio el idioma?","How do I change the language?"],["Usa el selector de idioma en la barra superior o el campo Idioma en Configuración. El cambio se aplica a los textos principales de la interfaz.","Use the language selector in the top bar or the Language field in Settings. The change applies to the main interface texts."],["¿Cómo cambio el tema visual?","How do I change the visual theme?"],["Usa el selector de tema en la barra superior o Configuración. El tema queda guardado y se aplica al recargar.","Use the theme selector in the top bar or Settings. The theme is saved and applied on reload."],["¿Puedo usar la librería sin la interfaz?","Can I use the library without the interface?"],["Sí. El framework está separado de la interfaz y puede ejecutarse desde consola o integrarse mediante API.","Yes. The framework is separate from the interface and can be run from the console or integrated through the API."],["¿Qué información debo enviar al reportar un bug?","What information should I send when reporting a bug?"],["Comparte captura, pasos para reproducir, consola del servidor, navegador usado y módulo donde ocurrió.","Share a screenshot, reproduction steps, server console, browser used, and the module where it happened."],["¿Cuándo seguimos con nuevas fases?","When do we continue with new phases?"],["Cuando esta base quede estable con los bugs y mejoras corregidos, se continúa con la siguiente fase funcional.","When this baseline is stable with bug fixes and improvements, the next functional phase continues."],
+  ["Acerca de AutoTest Pro Framework","About AutoTest Pro Framework"],["Plataforma profesional para administrar y ejecutar pruebas automatizadas web con Selenium, FastAPI, SQLite y reportes ejecutivos.","Professional platform to manage and execute automated web tests with Selenium, FastAPI, SQLite, and executive reports."],["Versión base","Base version"],["Arquitectura","Architecture"],["Objetivo","Objective"],["Framework Core + API + Interfaz Web","Framework Core + API + Web Interface"],["HTML, Excel y PDF","HTML, Excel and PDF"],["Base comercial extensible para equipos QA","Extensible commercial foundation for QA teams"]
+];
+
+function norm(v){return String(v ?? "").replace(/\s+/g," ").trim();}
+function langCode(v){const s=String(v||"").toLowerCase(); return (s==="en"||s==="english")?"en":"es";}
+const ES_LOOKUP = new Map();
+const EN_LOOKUP = new Map();
+for(const [es,en] of I18N_PAIRS){ES_LOOKUP.set(norm(es).toLowerCase(), {es:norm(es), en:norm(en)}); EN_LOOKUP.set(norm(en).toLowerCase(), {es:norm(es), en:norm(en)});}
+function isUpperLike(s){const letters=s.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/g,""); return letters && letters===letters.toUpperCase();}
+function matchCase(source, target){return isUpperLike(source) ? target.toUpperCase() : target;}
+function translateExact(text, lang){
+  const t=norm(text); if(!t) return text;
+  let pair = ES_LOOKUP.get(t.toLowerCase()) || EN_LOOKUP.get(t.toLowerCase());
+  if(pair) return matchCase(t, pair[lang]);
+  if(lang === "en"){
+    let m=t.match(/^Detalle de proyecto #(\d+)$/i); if(m) return `Project details #${m[1]}`;
+    m=t.match(/^Versión\s+(.+)$/i); if(m) return `Version ${m[1]}`;
+    m=t.match(/^Última ejecución:\s*(.*)$/i); if(m) return `Last execution: ${m[1]}`;
+    m=t.match(/^Activos:\s*(.*)$/i); if(m) return `Active: ${m[1]}`;
+    m=t.match(/^Grabados:\s*(.*)$/i); if(m) return `Recorded: ${m[1]}`;
+    m=t.match(/^Promedio:\s*(.*)$/i); if(m) return `Average: ${m[1]}`;
+  } else {
+    let m=t.match(/^Project details #(\d+)$/i); if(m) return `Detalle de proyecto #${m[1]}`;
+    m=t.match(/^Version\s+(.+)$/i); if(m) return `Versión ${m[1]}`;
+    m=t.match(/^Last execution:\s*(.*)$/i); if(m) return `Última ejecución: ${m[1]}`;
+    m=t.match(/^Active:\s*(.*)$/i); if(m) return `Activos: ${m[1]}`;
+    m=t.match(/^Recorded:\s*(.*)$/i); if(m) return `Grabados: ${m[1]}`;
+    m=t.match(/^Average:\s*(.*)$/i); if(m) return `Promedio: ${m[1]}`;
   }
-};
-
-const PHRASE_TRANSLATIONS = {
-  en: {
-    "Plataforma de Automatización QA": "QA Automation Platform",
-    "Centro de control": "Control center",
-    "Resumen ejecutivo de automatización": "Automation executive summary",
-    "Visualiza salud general, actividad reciente, reportes, casos grabados y rendimiento de ejecución.": "View overall health, recent activity, reports, recorded cases, and execution performance.",
-    "Ver último reporte generado": "View latest generated report",
-    "Ver ejecuciones": "View executions",
-    "Ver reportes": "View reports",
-    "Proyectos": "Projects",
-    "Suites": "Suites",
-    "Casos": "Cases",
-    "Éxito global": "Global success",
-    "Ejecuciones": "Executions",
-    "Reportes": "Reports",
-    "Jobs": "Jobs",
-    "Fallidas": "Failed",
-    "Distribución de resultados": "Result distribution",
-    "Ejecuciones por navegador": "Executions by browser",
-    "Tendencia reciente": "Recent trend",
-    "Últimas ejecuciones": "Latest executions",
-    "Historial reciente almacenado en SQLite.": "Recent history stored in SQLite.",
-    "Estado operativo": "Operational status",
-    "Validaciones rápidas del entorno local.": "Quick checks of the local environment.",
-    "Accesos rápidos": "Quick access",
-    "Atajos para operación diaria del framework.": "Shortcuts for daily framework operation.",
-    "Gestionar proyectos": "Manage projects",
-    "Abrir grabador": "Open recorder",
-    "Programar ejecución": "Schedule execution",
-    "Usar plantillas": "Use templates",
-    "Proyectos de automatización": "Automation projects",
-    "Administra proyectos, URL base, navegador y estado.": "Manage projects, base URL, browser, and status.",
-    "Nuevo proyecto": "New project",
-    "Nombre": "Name", "URL base": "Base URL", "Navegador": "Browser", "Estado": "Status", "Acciones": "Actions", "Eliminar": "Delete", "Ver detalle": "View details",
-    "Programador de ejecuciones": "Execution scheduler",
-    "Agenda ejecuciones demo y administra trabajos recurrentes.": "Schedule demo executions and manage recurring jobs.",
-    "Nuevo job": "New job",
-    "Frecuencia": "Frequency", "Próxima ejecución": "Next execution",
-    "Orquestador rápido": "Quick orchestrator",
-    "Ejecuta el caso demo desde esta pantalla y valida la integración API + Selenium + reportes.": "Run the demo case from this screen and validate the API + Selenium + reports integration.",
-    "Ambiente": "Environment", "Reportes": "Reports", "Ejecutar headless": "Run headless", "Ejecutar ahora": "Run now", "Listo para ejecutar.": "Ready to run.",
-    "Marca blanca": "White label", "Personaliza nombre, logo, colores y datos comerciales de la plataforma.": "Customize name, logo, colors, and business information.",
-    "Restaurar valores": "Restore defaults", "Nombre de la aplicación": "Application name", "Nombre comercial / empresa": "Business name / company", "Texto del logo": "Logo text", "Texto superior": "Top text", "Color principal": "Primary color", "Color sidebar": "Sidebar color", "Correo de soporte": "Support email", "Sitio web": "Website", "Tema visual": "Visual theme", "Idioma": "Language", "Zona horaria": "Time zone", "Navegador por defecto": "Default browser", "Ambiente por defecto": "Default environment", "Guardar configuración": "Save settings",
-    "Preguntas frecuentes": "Frequently asked questions", "Acerca de": "About", "Usuarios": "Users", "Auditoría": "Audit", "Configuración": "Settings", "Perfil": "Profile", "Grabador": "Recorder", "Plantillas": "Templates"
-  },
-  es: {
-    "Projects": "Proyectos", "Recorder": "Grabador", "Scheduler": "Scheduler", "Executions": "Ejecuciones", "Reports": "Reportes", "Templates": "Plantillas", "Profile": "Perfil", "Users": "Usuarios", "Audit": "Auditoría", "Settings": "Configuración", "FAQ": "Preguntas frecuentes", "About": "Acerca de",
-    "Theme": "Tema", "Language": "Idioma", "Logout": "Salir", "View latest generated report": "Ver último reporte generado", "View executions": "Ver ejecuciones", "View details": "Ver detalle", "Delete": "Eliminar", "New project": "Nuevo proyecto", "Quick orchestrator": "Orquestador rápido", "Run now": "Ejecutar ahora"
+  return text;
+}
+function translateMixed(text, lang){
+  let out = norm(text); if(!out) return text;
+  const exact = translateExact(out, lang); if(exact !== out) return exact;
+  const pairs = I18N_PAIRS.slice().sort((a,b)=>Math.max(b[0].length,b[1].length)-Math.max(a[0].length,a[1].length));
+  for(const [es,en] of pairs){
+    const source = lang === "en" ? norm(es) : norm(en);
+    const target = lang === "en" ? norm(en) : norm(es);
+    if(source.length < 4 || source === target) continue;
+    out = out.split(source).join(target);
   }
-};
-
-async function apiGet(path) {
-  const response = await fetch(API + path);
-  if (!response.ok) throw new Error(`GET ${path} failed`);
-  return response.json();
+  return out;
 }
-async function apiPost(path, body) {
-  const response = await fetch(API + path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-  if (!response.ok) { const text = await response.text(); throw new Error(text || `POST ${path} failed`); }
-  return response.json();
+function currentLanguage(){
+  const selector = document.getElementById("languageSelector")?.value;
+  return langCode(selector || localStorage.getItem("autotest_language") || document.body.dataset.appLanguage || "es");
 }
-async function apiPut(path, body) {
-  const response = await fetch(API + path, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-  if (!response.ok) { const text = await response.text(); throw new Error(text || `PUT ${path} failed`); }
-  return response.json();
+function setLanguageSelectors(lang){["languageSelector","language"].forEach(id=>{const el=document.getElementById(id); if(el && el.value!==lang) el.value=lang;});}
+function translateTextNode(node, lang){
+  const before=node.nodeValue||""; const trimmed=norm(before); if(!trimmed) return;
+  const after=translateMixed(trimmed, lang); if(after!==trimmed) node.nodeValue=before.replace(/\S(?:[\s\S]*\S)?/, after);
 }
-async function apiDelete(path) {
-  const response = await fetch(API + path, { method: "DELETE" });
-  if (!response.ok) throw new Error(`DELETE ${path} failed`);
-  return response.json();
+function translateElement(el, lang){
+  if(!el || !el.getAttribute) return;
+  ["placeholder","title","aria-label","data-label"].forEach(attr=>{ if(el.hasAttribute(attr)){ const v=el.getAttribute(attr); const t=translateMixed(v,lang); if(t!==norm(v)) el.setAttribute(attr,t); }});
+  if(el.tagName === "OPTION"){ const t=translateMixed(el.textContent, lang); if(t!==norm(el.textContent)) el.textContent=t; }
+  if((el.tagName==="INPUT"||el.tagName==="BUTTON") && ["button","submit","reset"].includes((el.type||"").toLowerCase())){ const t=translateMixed(el.value,lang); if(t!==norm(el.value)) el.value=t; }
+  if((el.tagName==="INPUT"||el.tagName==="TEXTAREA") && el.value && !["password","color","number"].includes((el.type||"").toLowerCase())){ const t=translateMixed(el.value,lang); if(t!==norm(el.value)) el.value=t; }
 }
-function statusBadge(status) { const value = status || "UNKNOWN"; return `<span class="badge ${value}">${value}</span>`; }
-function safe(value, fallback = "-") { return value === null || value === undefined || value === "" ? fallback : value; }
-function seconds(value) { const n = Number(value || 0); return `${n.toFixed(2)} s`; }
-function toast(message) { const el = document.getElementById("toast"); if (!el) return; el.textContent = message; el.classList.remove("hidden"); setTimeout(() => el.classList.add("hidden"), 4200); }
-function showToast(message, type = 'info') { toast(message); }
-
-function applyTheme(themeName) {
-  const theme = THEME_OPTIONS[themeName] || THEME_OPTIONS["Corporate Light"];
-  const root = document.documentElement;
-  root.style.setProperty("--bg", theme.bg);
-  root.style.setProperty("--surface", theme.surface);
-  root.style.setProperty("--surface-2", theme.surface2);
-  root.style.setProperty("--text", theme.text);
-  root.style.setProperty("--muted", theme.muted);
-  root.style.setProperty("--primary", theme.primary);
-  root.style.setProperty("--primary-dark", theme.primary);
-  root.style.setProperty("--sidebar-bg", theme.sidebar);
-  root.style.setProperty("--border", theme.border);
-  document.body.classList.toggle("dark", ["Corporate Dark", "Neon Tech", "Black Gold"].includes(themeName));
-  localStorage.setItem("autotest_theme", themeName);
-  const selector = document.getElementById("themeSelector");
-  if (selector && selector.value !== themeName) selector.value = themeName;
+function translateDocument(lang){
+  const skipTags = new Set(["SCRIPT","STYLE","CODE","PRE","TEXTAREA"]);
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode(node){ const p=node.parentElement; if(!p || skipTags.has(p.tagName)) return NodeFilter.FILTER_REJECT; if(p.closest("code,pre,.code-block,.small-code")) return NodeFilter.FILTER_REJECT; return norm(node.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP; }});
+  const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode); nodes.forEach(n=>translateTextNode(n,lang));
+  document.querySelectorAll("*[placeholder],*[title],*[aria-label],*[data-label],option,input,button,textarea").forEach(el=>translateElement(el,lang));
+  document.title = document.title.split("|").map(part=>translateMixed(part,lang)).join(" | ");
+}
+function applyLanguage(langInput){
+  const lang=langCode(langInput || currentLanguage());
+  document.documentElement.lang=lang; document.body.dataset.appLanguage=lang; localStorage.setItem("autotest_language", lang); setLanguageSelectors(lang); translateDocument(lang);
 }
 
-function translateTextNodes(lang) {
-  const map = PHRASE_TRANSLATIONS[lang] || {};
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode(node) {
-      const parent = node.parentElement;
-      if (!parent || ["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "OPTION"].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
-      const text = node.nodeValue.trim();
-      return map[text] ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
-    }
-  });
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-  nodes.forEach(node => { const original = node.nodeValue; const trimmed = original.trim(); node.nodeValue = original.replace(trimmed, map[trimmed]); });
+function fontFamilyFromValue(value){
+  const raw=String(value||"Inter / Segoe UI").trim();
+  const map={"Inter / Segoe UI":"Inter, 'Segoe UI', Arial, sans-serif","Inter, Segoe UI, Arial, sans-serif":"Inter, 'Segoe UI', Arial, sans-serif","Segoe UI":"'Segoe UI', Arial, sans-serif","Arial":"Arial, Helvetica, sans-serif","Roboto":"Roboto, Arial, sans-serif","Verdana":"Verdana, Geneva, sans-serif","Tahoma":"Tahoma, Geneva, sans-serif","Georgia":"Georgia, 'Times New Roman', serif","Courier New":"'Courier New', Courier, monospace","Trebuchet MS":"'Trebuchet MS', Arial, sans-serif","Calibri":"Calibri, Arial, sans-serif","Montserrat":"Montserrat, Arial, sans-serif","Open Sans":"'Open Sans', Arial, sans-serif"};
+  return map[raw] || raw;
 }
-
-function applyLanguage(langInput) {
-  const lang = langInput || localStorage.getItem("autotest_language") || document.body.dataset.appLanguage || "es";
-  const dict = I18N[lang] || I18N.es;
-  document.documentElement.lang = lang;
-  document.body.dataset.appLanguage = lang;
-  localStorage.setItem("autotest_language", lang);
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    if (dict[key]) el.textContent = dict[key];
-  });
-  const selector = document.getElementById("languageSelector");
-  if (selector && selector.value !== lang) selector.value = lang;
-  translateTextNodes(lang);
+function normalizeFontSize(value){ let n=parseInt(String(value||"15").replace("px","").trim(),10); if(Number.isNaN(n)) n=15; return Math.max(9, Math.min(28,n)); }
+function applyFontSettings(fontFamily, fontSize){
+  const rawFamily = fontFamily || localStorage.getItem("autotest_font_family") || document.body.dataset.fontFamily || "Inter / Segoe UI";
+  const family = fontFamilyFromValue(rawFamily);
+  const size = normalizeFontSize(fontSize || localStorage.getItem("autotest_font_size") || document.body.dataset.fontSize || "15");
+  const root=document.documentElement;
+  root.style.setProperty("--app-font-family", family);
+  root.style.setProperty("--app-font-size", `${size}px`);
+  root.style.setProperty("--font-xs", `max(9px, calc(${size}px * 0.78))`);
+  root.style.setProperty("--font-sm", `max(10px, calc(${size}px * 0.88))`);
+  root.style.setProperty("--font-base", `${size}px`);
+  root.style.setProperty("--font-md", `calc(${size}px * 1.07)`);
+  root.style.setProperty("--font-lg", `calc(${size}px * 1.25)`);
+  root.style.setProperty("--font-xl", `calc(${size}px * 1.65)`);
+  root.style.setProperty("--font-xxl", `calc(${size}px * 2.10)`);
+  document.body.style.fontFamily=family; document.body.style.fontSize=`${size}px`; document.body.dataset.fontFamily=rawFamily; document.body.dataset.fontSize=String(size);
+  localStorage.setItem("autotest_font_family", rawFamily); localStorage.setItem("autotest_font_size", String(size));
+  const sizeSelect=document.getElementById("font_size"); if(sizeSelect) sizeSelect.value=String(size);
+  const familySelect=document.getElementById("font_family"); if(familySelect) familySelect.value=rawFamily;
 }
-
-async function persistUiPreference(partial) {
-  try {
-    const current = await apiGet("/api/settings");
-    await apiPut("/api/settings", { ...current, ...partial, smtp_password: "" });
-  } catch (error) {
-    console.warn("No se pudo persistir preferencia global, se aplicó localmente.", error);
-  }
+function applyTheme(themeName){
+  const theme=THEME_OPTIONS[themeName]||THEME_OPTIONS["Corporate Light"]; const root=document.documentElement;
+  root.style.setProperty("--bg",theme.bg); root.style.setProperty("--surface",theme.surface); root.style.setProperty("--surface-2",theme.surface2); root.style.setProperty("--text",theme.text); root.style.setProperty("--muted",theme.muted); root.style.setProperty("--primary",theme.primary); root.style.setProperty("--primary-dark",theme.primary); root.style.setProperty("--sidebar-bg",theme.sidebar); root.style.setProperty("--border",theme.border);
+  document.body.classList.toggle("dark",["Corporate Dark","Neon Tech","Black Gold"].includes(themeName)); localStorage.setItem("autotest_theme",themeName); const selector=document.getElementById("themeSelector"); if(selector && selector.value!==themeName) selector.value=themeName;
 }
-
-function initThemeSelector() {
-  const selector = document.getElementById("themeSelector");
-  const serverTheme = document.body.dataset.currentTheme || "Corporate Light";
-  const selected = localStorage.getItem("autotest_theme") || serverTheme;
-  if (selector) {
-    selector.innerHTML = Object.keys(THEME_OPTIONS).map(name => `<option value="${name}">${name}</option>`).join("");
-    selector.value = selected;
-    selector.addEventListener("change", async () => {
-      applyTheme(selector.value);
-      await persistUiPreference({ theme: selector.value });
-      toast(`Tema aplicado: ${selector.value}`);
-    });
-  }
+async function apiGet(path){const response=await fetch(API+path); if(!response.ok) throw new Error(`GET ${path} failed`); return response.json();}
+async function apiPost(path,body){const response=await fetch(API+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}); if(!response.ok){const text=await response.text(); throw new Error(text||`POST ${path} failed`);} return response.json();}
+async function apiPut(path,body){const response=await fetch(API+path,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}); if(!response.ok){const text=await response.text(); throw new Error(text||`PUT ${path} failed`);} return response.json();}
+async function apiDelete(path){const response=await fetch(API+path,{method:"DELETE"}); if(!response.ok) throw new Error(`DELETE ${path} failed`); return response.json();}
+async function persistUiPreference(partial){try{const current=await apiGet("/api/settings"); await apiPut("/api/settings",{...current,...partial,smtp_password:""});}catch(e){console.warn("Preference persisted locally only", e);}}
+function statusBadge(status){const value=status||"UNKNOWN"; return `<span class="badge ${value}">${value}</span>`;}
+function safe(value,fallback="-"){return value===null||value===undefined||value===""?fallback:value;}
+function seconds(value){const n=Number(value||0); return `${n.toFixed(2)} s`;}
+function toast(message){const el=document.getElementById("toast"); if(!el) return; el.textContent=message; el.classList.remove("hidden"); setTimeout(()=>el.classList.add("hidden"),4200);}
+function showToast(message,type="info"){toast(message);}
+function initThemeSelector(){
+  const selector=document.getElementById("themeSelector"); const selected=localStorage.getItem("autotest_theme")||document.body.dataset.currentTheme||"Corporate Light";
+  if(selector){selector.innerHTML=Object.keys(THEME_OPTIONS).map(n=>`<option value="${n}">${n}</option>`).join(""); selector.value=selected; selector.addEventListener("change",async()=>{applyTheme(selector.value); await persistUiPreference({theme:selector.value}); toast(currentLanguage()==="es"?`Tema aplicado: ${selector.value}`:`Theme applied: ${selector.value}`);});}
   applyTheme(selected);
 }
-
-function initLanguageSelector() {
-  const selector = document.getElementById("languageSelector");
-  const serverLang = document.body.dataset.appLanguage || "es";
-  const selected = localStorage.getItem("autotest_language") || serverLang;
-  if (selector) {
-    selector.value = selected;
-    selector.addEventListener("change", async () => {
-      applyLanguage(selector.value);
-      await persistUiPreference({ language: selector.value });
-      toast(selector.value === "es" ? "Idioma aplicado: Español" : "Language applied: English");
-    });
-  }
+function initLanguageSelector(){
+  const selector=document.getElementById("languageSelector"); const selected=langCode(localStorage.getItem("autotest_language")||document.body.dataset.appLanguage||"es");
+  if(selector){selector.value=selected; selector.addEventListener("change",async()=>{applyLanguage(selector.value); await persistUiPreference({language:selector.value}); toast(selector.value==="es"?"Idioma aplicado: Español":"Language applied: English");});}
   applyLanguage(selected);
 }
-
-window.applyTheme = applyTheme;
-window.applyLanguage = applyLanguage;
-window.THEME_OPTIONS = THEME_OPTIONS;
-
-document.addEventListener("DOMContentLoaded", () => { initThemeSelector(); initLanguageSelector(); });
+window.applyTheme=applyTheme; window.applyLanguage=applyLanguage; window.applyFontSettings=applyFontSettings; window.THEME_OPTIONS=THEME_OPTIONS;
+let mutationTimer=null;
+document.addEventListener("DOMContentLoaded",()=>{
+  applyFontSettings(); initThemeSelector(); initLanguageSelector();
+  document.getElementById("language")?.addEventListener("change", e=>applyLanguage(e.target.value));
+  document.getElementById("font_family")?.addEventListener("change", e=>applyFontSettings(e.target.value, document.getElementById("font_size")?.value));
+  document.getElementById("font_size")?.addEventListener("change", e=>applyFontSettings(document.getElementById("font_family")?.value, e.target.value));
+  const observer=new MutationObserver(()=>{clearTimeout(mutationTimer); mutationTimer=setTimeout(()=>{applyLanguage(currentLanguage()); applyFontSettings();},80);});
+  observer.observe(document.body,{childList:true,subtree:true});
+  setTimeout(()=>{applyLanguage(currentLanguage()); applyFontSettings();},250);
+  setTimeout(()=>{applyLanguage(currentLanguage()); applyFontSettings();},900);
+});

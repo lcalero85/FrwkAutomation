@@ -16,6 +16,8 @@ DEFAULT_SETTINGS: dict[str, tuple[str, str, str]] = {
     "secondary_color": ("#0e1930", "string", "Color principal del sidebar"),
     "theme": ("Corporate Light", "string", "Tema visual activo"),
     "language": ("es", "string", "Idioma de la interfaz"),
+    "font_family": ("Inter, Segoe UI, Arial, sans-serif", "string", "Fuente base de la interfaz"),
+    "font_size": ("15", "number", "Tamaño base de fuente en pixeles (9 a 28)"),
     "timezone": ("America/El_Salvador", "string", "Zona horaria"),
     "reports_path": ("reports", "string", "Ruta de reportes"),
     "logs_path": ("logs", "string", "Ruta de logs"),

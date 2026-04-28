@@ -10,11 +10,13 @@
       --primary: {{ branding.primary_color or '#2463eb' }};
       --primary-dark: {{ branding.primary_color or '#2463eb' }};
       --sidebar-bg: {{ branding.secondary_color or '#0e1930' }};
+      --app-font-family: {{ (branding.font_family or 'Inter, Segoe UI, Arial, sans-serif') | tojson }};
+      --app-font-size: {{ branding.font_size or '15' }}px;
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body data-current-theme="{{ branding.theme or 'Corporate Light' }}" data-app-language="{{ branding.language or 'es' }}">
+<body data-current-theme="{{ branding.theme or 'Corporate Light' }}" data-app-language="{{ branding.language or 'es' }}" data-font-family="{{ branding.font_family or 'Inter, Segoe UI, Arial, sans-serif' }}" data-font-size="{{ branding.font_size or '15' }}">
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">
